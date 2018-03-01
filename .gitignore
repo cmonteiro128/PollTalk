@@ -1,1 +1,5 @@
 .DS_Store
+server/bin/*
+server/include/*
+server/lib/*
+server/pyvenv.cfg
