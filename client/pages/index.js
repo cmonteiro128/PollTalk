@@ -1,60 +1,120 @@
-import React from 'react';
-import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
-import Head from '../components/head';
+/* eslint no-underscore-dangle: ["error", { "allow": ["__NEXT_DATA__"] }] */
+/* global window */
 
-export default class CreatePoll extends React.Component {
+import React from 'react';
+import { Button, Form, Grid, Header, Segment, Input, Message } from 'semantic-ui-react';
+import { css } from 'emotion';
+import { hydrate, injectGlobal } from 'react-emotion';
+import withRedux from 'next-redux-wrapper';
+import { bindActionCreators } from 'redux';
+import Head from '../components/head';
+import globalStore from '../store';
+
+import { addPollOption } from '../actions/createPoll';
+
+// Centering style for grid, need to inject globally
+injectGlobal`body > div, body > div > div, body > div > div > div {height: 100%}`; // eslint-disable-line
+
+// Adds server generated styles to emotion cache.
+// '__NEXT_DATA__.ids' is set in '_document.js'
+if (typeof window !== 'undefined') {
+  hydrate(window.__NEXT_DATA__.ids);
+}
+
+class CreatePoll extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { pollText: '' };
+  }
+
+  handleChange = name => (e, { value }) => this.setState({ [name]: value });
+
+  handleSubmit = (event) => {
+    console.log(`${this.props.pollOptions}`);
+    event.preventDefault();
+  };
+
   render() {
+    // Dispatchers
+    const { addPollOption } = this.props;
+    // State
+    const { pollOptions } = this.props;
+
+    const pollList = pollOptions.map((item, i) => (
+      <Message size="small">
+        <Message.Header key={i}>{item}</Message.Header>
+      </Message>
+    ));
+
     return (
       <div>
         <Head title="PollTalk | Create Poll" />
-        {/*
-      Heads up! The styles below are necessary for the correct render of this example.
-      You can do same with CSS, the main idea is that all the elements up to the `Grid`
-      below must have a height of 100%.
-    */}
-        <style jsx global>
-          {`
-            body {
-              background: '#dfe0e1';
-            }
-          `}
-        </style>
-        <style>
-          {`
-      body > div,
-      body > div > div,
-      body > div > div > div.login-form {
-        height: 100%;
-      }
-    `}
-        </style>
-        <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
-          <Grid.Column style={{ maxWidth: 450 }}>
+        <Grid textAlign="center" verticalAlign="middle">
+          <Grid.Column
+            className={css`
+              max-width: 450px;
+            `}
+          >
             <Header as="h2" color="blue" textAlign="center">
               Create a new poll
             </Header>
             <Form size="large">
+              <Input
+                className={css`
+                  text-align: center;
+                `}
+                fluid
+                placeholder="Enter poll name"
+              />
               <Segment stacked>
-                <Form.Input fluid icon="user" iconPosition="left" placeholder="E-mail address" />
-                <Form.Input
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  placeholder="Password"
-                  type="password"
-                />
-
-                <Button color="blue" fluid size="large">
-                  Login
+                {pollList}
+                <Form.Field>
+                  <Input
+                    fluid
+                    icon="checkmark box"
+                    iconPosition="left"
+                    placeholder="Poll Question"
+                    onChange={this.handleChange('pollText')}
+                    value={this.state.pollText}
+                    action={
+                      <Button
+                        id="add-button"
+                        icon="plus"
+                        style={{
+                          borderTopRightRadius: '0.285714rem',
+                          borderBottomRightRadius: '0.285714rem',
+                        }}
+                        onClick={() => {
+                          if (this.state.pollText !== '') {
+                            addPollOption(this.state.pollText);
+                            console.log(`test${this.state.pollText}`); // eslint-disable-line
+                            this.setState({ pollText: '' });
+                          }
+                        }}
+                      />
+                    }
+                  />
+                </Form.Field>
+                <Button color="blue" fluid size="large" onClick={this.handleSubmit}>
+                  Create Poll
                 </Button>
               </Segment>
             </Form>
-            <Message>
-              New to us? <a href="/#">Sign Up</a>
-            </Message>
           </Grid.Column>
         </Grid>
+        {/*
+          Heads up! The styles below are necessary for the correct render of this example.
+          You can do same with CSS, the main idea is that all the elements up to the `Grid`
+          below must have a height of 100%.
+        */}
       </div>
     );
   }
 }
+const mapStateToProps = state => ({
+  pollOptions: state.CreatePoll.pollOptions,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({ addPollOption }, dispatch);
+
+export default withRedux(globalStore, mapStateToProps, mapDispatchToProps)(CreatePoll);
