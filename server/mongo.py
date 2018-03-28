@@ -2,6 +2,7 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from flask_pymongo import PyMongo
+from flask_cors import CORS
 import urllib
 import uuid
 
@@ -17,7 +18,7 @@ app.config['MONGO_URI'] = 'mongodb://apiuser:' + \
     urllib.parse.quote_plus(pword) + \
     '@ds211029.mlab.com:11029/polltalk'
 mongo = PyMongo(app)
-
+CORS(app)
 
 # @app.route('/star', methods=['GET'])
 # def get_all_stars():
