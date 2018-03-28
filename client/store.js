@@ -17,7 +17,9 @@ export default (initialState) => {
 What our state looks like:
 {
     CreatePoll: {
-        pollOptions: []
+        pollOptions: [],
+        pollName:"",
+        obtainedPollID:""
     }
 }
 */

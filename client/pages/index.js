@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import Head from '../components/head';
 import globalStore from '../store';
 
-import { addPollOption } from '../actions/createPoll';
+import { addPollOption, createPoll } from '../actions/createPoll';
 
 // Centering style for grid, need to inject globally
 injectGlobal`body > div, body > div > div, body > div > div > div {height: 100%}`; // eslint-disable-line
@@ -24,14 +24,14 @@ if (typeof window !== 'undefined') {
 class CreatePoll extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pollText: '' };
+    this.state = { pollText: '', pollName: '' };
   }
 
   handleChange = name => (e, { value }) => this.setState({ [name]: value });
 
-  handleSubmit = (event) => {
-    console.log(`${this.props.pollOptions}`);
-    event.preventDefault();
+  handleSubmit = () => {
+    createPoll(this.props.pollOptions, this.state.pollName);
+    console.log(`${this.props.pollID}`);
   };
 
   render() {
@@ -64,6 +64,7 @@ class CreatePoll extends React.Component {
                   text-align: center;
                 `}
                 fluid
+                onChange={this.handleChange('pollName')}
                 placeholder="Enter poll name"
               />
               <Segment stacked>
@@ -102,19 +103,15 @@ class CreatePoll extends React.Component {
             </Form>
           </Grid.Column>
         </Grid>
-        {/*
-          Heads up! The styles below are necessary for the correct render of this example.
-          You can do same with CSS, the main idea is that all the elements up to the `Grid`
-          below must have a height of 100%.
-        */}
       </div>
     );
   }
 }
 const mapStateToProps = state => ({
   pollOptions: state.CreatePoll.pollOptions,
+  pollID: state.CreatePoll.obtainedPollID,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addPollOption }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ addPollOption, createPoll }, dispatch);
 
 export default withRedux(globalStore, mapStateToProps, mapDispatchToProps)(CreatePoll);
