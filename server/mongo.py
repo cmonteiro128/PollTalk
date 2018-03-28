@@ -7,6 +7,7 @@ import urllib
 import uuid
 
 app = Flask(__name__)
+CORS(app)
 
 with open("config.txt") as file:
     line = file.read()
@@ -18,7 +19,6 @@ app.config['MONGO_URI'] = 'mongodb://apiuser:' + \
     urllib.parse.quote_plus(pword) + \
     '@ds211029.mlab.com:11029/polltalk'
 mongo = PyMongo(app)
-CORS(app)
 
 # @app.route('/star', methods=['GET'])
 # def get_all_stars():
