@@ -5,3 +5,4 @@ server/bin/*
 server/include/*
 server/lib/*
 server/pyvenv.cfg
+server/config.txt
