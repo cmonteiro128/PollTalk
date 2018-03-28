@@ -20,7 +20,6 @@ export function addPollName(option) {
 
 export async function createPoll(pollOptions, pollName) {
   const dataToPass = { pollOptions, pollName };
-  console.log(JSON.stringify(dataToPass));
   const pollID = await fetch('http://localhost:5000/createPoll', {
     method: 'POST',
     body: JSON.stringify(dataToPass),
