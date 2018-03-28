@@ -2,7 +2,7 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from flask_pymongo import PyMongo
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import urllib
 import uuid
 
@@ -55,12 +55,13 @@ def get_poll(pollid):
 
 
 @app.route('/createPoll', methods=['POST'])
+@cross_origin()
 def create_poll():
     pollid = uuid.uuid4().hex[:8].upper()
     poll = mongo.db.polls
     options = []
     # options = request.json['options']
-    for option in request.json['options']:
+    for option in request.json['pollOptions']:
         options.append({
             'option': option,
             'count': 0,
