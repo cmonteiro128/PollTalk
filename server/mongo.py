@@ -20,44 +20,43 @@ app.config['MONGO_URI'] = 'mongodb://apiuser:' + \
     '@ds211029.mlab.com:11029/polltalk'
 mongo = PyMongo(app)
 
-# @app.route('/star', methods=['GET'])
-# def get_all_stars():
-#     star = mongo.db.stars
-#     output = []
-#     for s in star.find():
-#         output.append({'name': s['name'], 'distance': s['distance']})
-#     return jsonify({'result': output})
+# Gets the information for a given poll.
+# Serves as both the admin data returner and the user data returner
+# Determined by the length of the poll ID given
 
-
-# @app.route('/star', methods=['POST'])
-# def add_star():
-#     star = mongo.db.stars
-#     name = request.json['name']
-#     distance = request.json['distance']
-#     star_id = star.insert({'name': name, 'distance': distance})
-#     new_star = star.find_one({'_id': star_id})
-#     output = {'name': new_star['name'], 'distance': new_star['distance']}
-#     return jsonify({'result': output})
 
 @app.route('/poll/<pollid>', methods=['GET'])
+@cross_origin()
 def get_poll(pollid):
     poll = mongo.db.polls
     # pollid = request.json['pollid']
-    pollobject = poll.find_one({'pollID': pollid})
-    output = {'pollName': pollobject['pollName'],
-              'options': pollobject['options']}
-    if pollobject:
-        output = {'pollName': pollobject['pollName'],
-                  'options': pollobject['options']}
-    else:
-        output = "COULD NOT FIND"
+    if len(pollid) == 8:
+        pollobject = poll.find_one({'pollID': pollid})
+        if pollobject:
+            output = {'pollName': pollobject['pollName'],
+                      'options': pollobject['options'], }
+        else:
+            output = "COULD NOT FIND"
+    elif len(pollid) == 32:
+        pollobject = poll.find_one({'adminID': pollid})
+        if pollobject:
+            output = {'pollName': pollobject['pollName'],
+                      'options': pollobject['options'],
+                      'open': pollobject['open'],
+                      'pollID': pollobject['pollID']}
+        else:
+            output = "COULD NOT FIND"
     return jsonify({'result': output})
+
+# Creates a poll and returns the Admin ID, and the POll ID
+# Accepts a json with the format {'pollName','options[]'}
 
 
 @app.route('/createPoll', methods=['POST'])
 @cross_origin()
 def create_poll():
-    pollid = uuid.uuid4().hex[:8].upper()
+    secretPollID = uuid.uuid4().hex.upper()
+    pollid = secretPollID[:8]
     poll = mongo.db.polls
     options = []
     # options = request.json['options']
@@ -67,12 +66,18 @@ def create_poll():
             'count': 0,
         })
     pollName = request.json['pollName']
-    poll.insert({'pollID': pollid, 'pollName': pollName, 'options': options})
-    output = {'pollName': pollName, 'options': options, 'pollID': pollid}
+    poll.insert({'pollID': pollid, 'pollName': pollName,
+                 'options': options, 'open': True, 'adminID': secretPollID})
+    output = {'pollName': pollName, 'options': options,
+              'pollID': pollid, 'adminID': secretPollID}
     return jsonify({'result': output})
 
+# Used to vote in the polls, increments the count for the
+# index passed into the option parameter
 
-@app.route('/poll/<pollid>/<option>', methods=['POST'])
+
+@app.route('/poll/<pollid>/<int:option>', methods=['POST'])
+@cross_origin()
 def vote(pollid, option):
     poll = mongo.db.polls
     pollobject = poll.find_one({'pollID': pollid})
@@ -81,6 +86,23 @@ def vote(pollid, option):
         poll.update({'pollID': pollid}, pollobject)
         output = {'pollName': pollobject['pollName'],
                   'options': pollobject['options']}
+    else:
+        output = "COULD NOT FIND"
+    return jsonify({'result': output})
+
+# Used to close a poll, Poll can only be closed with the admin
+# link
+
+
+@app.route('/poll/<pollid>/close', methods=['POST'])
+@cross_origin()
+def closepoll(pollid):
+    poll = mongo.db.polls
+    pollobject = poll.find_one({'adminID': pollid})
+    if pollobject:
+        pollobject['open'] = False
+        poll.update({"pollID": pollid}, pollobject)
+        output = "Closed"
     else:
         output = "COULD NOT FIND"
     return jsonify({'result': output})
