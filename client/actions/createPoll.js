@@ -18,18 +18,29 @@ export function addPollName(option) {
   };
 }
 
-export async function createPoll(pollOptions, pollName) {
-  const dataToPass = { pollOptions, pollName };
-  const pollID = await fetch('http://localhost:5000/createPoll', {
-    method: 'POST',
-    body: JSON.stringify(dataToPass),
-    mode: 'cors',
-    headers: {
-      'content-type': 'application/json',
-    },
-  });
+function createPoll(pollID) {
   return {
     type: CREATE_POLL,
     pollID,
+  };
+}
+
+export function createPollAsync(pollOptions, pollName) {
+  const dataToPass = { pollOptions, pollName };
+  return (dispatch) => {
+    fetch('http://localhost:5000/createPoll', {
+      method: 'POST',
+      body: JSON.stringify(dataToPass),
+      mode: 'cors',
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then((json) => {
+        const { pollID } = json.result;
+        console.log(pollID);
+        dispatch(createPoll(pollID));
+      });
   };
 }

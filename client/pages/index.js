@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import Head from '../components/head';
 import globalStore from '../store';
 
-import { addPollOption, createPoll } from '../actions/createPoll';
+import { addPollOption, createPollAsync } from '../actions/createPoll';
 
 // Centering style for grid, need to inject globally
 injectGlobal`body > div, body > div > div, body > div > div > div {height: 100%}`; // eslint-disable-line
@@ -30,8 +30,7 @@ class CreatePoll extends React.Component {
   handleChange = name => (e, { value }) => this.setState({ [name]: value });
 
   handleSubmit = () => {
-    createPoll(this.props.pollOptions, this.state.pollName);
-    console.log(`${this.props.pollID}`);
+    this.props.createPollAsync(this.props.pollOptions, this.state.pollName);
   };
 
   render() {
@@ -88,7 +87,6 @@ class CreatePoll extends React.Component {
                         onClick={() => {
                           if (this.state.pollText !== '') {
                             addPollOption(this.state.pollText);
-                            console.log(`test${this.state.pollText}`); // eslint-disable-line
                             this.setState({ pollText: '' });
                           }
                         }}
@@ -112,6 +110,7 @@ const mapStateToProps = state => ({
   pollID: state.CreatePoll.obtainedPollID,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addPollOption, createPoll }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ addPollOption, createPollAsync }, dispatch);
 
 export default withRedux(globalStore, mapStateToProps, mapDispatchToProps)(CreatePoll);

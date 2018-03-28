@@ -7,3 +7,4 @@ server/lib/*
 server/pyvenv.cfg
 server/config.txt
 server/pip-selfcheck.json
+.vscode/launch.json

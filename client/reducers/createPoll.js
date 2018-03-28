@@ -10,7 +10,7 @@ function pollOptions(state = [], action) {
   }
 }
 
-function pollName(state = [], action) {
+function pollName(state = '', action) {
   switch (action.type) {
     case ADD_POLL_NAME:
       return action.option;
@@ -19,7 +19,7 @@ function pollName(state = [], action) {
   }
 }
 
-function obtainedPollID(state = [], action) {
+function obtainedPollID(state = '', action) {
   switch (action.type) {
     case CREATE_POLL:
       return action.pollID;
