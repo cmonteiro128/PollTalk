@@ -20,6 +20,9 @@ What our state looks like:
         pollOptions: [],
         pollName:"",
         obtainedPollID:""
+    },
+    ViewPoll: {
+      pollInfo: [],
     }
 }
 */
