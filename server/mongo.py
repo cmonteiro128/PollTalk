@@ -80,7 +80,7 @@ def create_poll():
 @cross_origin()
 def vote(pollid, option):
     poll = mongo.db.polls
-    pollobject = poll.find_one({'pollID': pollid})
+    pollobject = poll.find_one({'pollID': pollid, 'open': True})
     if pollobject:
         pollobject['options'][int(option)]['count'] += 1
         poll.update({'pollID': pollid}, pollobject)
