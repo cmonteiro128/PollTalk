@@ -20,7 +20,7 @@ if (typeof window !== 'undefined') {
 }
 
 const getPollInfo = (pollID) => {
-  fetch(`http://localhost:5000/poll/${pollID}`, {
+  const test = fetch(`http://localhost:5000/poll/${pollID}`, {
     mode: 'cors',
     headers: {
       'content-type': 'application/json',
@@ -32,6 +32,7 @@ const getPollInfo = (pollID) => {
       // dispatch(getPollInfo(pollInfo));
       return pollInfo;
     });
+  return test;
 };
 
 class CreatePoll extends React.Component {
@@ -58,7 +59,7 @@ class CreatePoll extends React.Component {
       <div>
         <Head title="PollTalk | View Poll" />
         <p>Poll View</p>
-        <p>{this.props.pollInfo}</p>
+        <p>{JSON.stringify(this.props.pollInfo)}</p>
         {console.log(this.props.pollInfo)}
       </div>
     );
