@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_socketio import SocketIO, send, join_room, leave_room
 from flask import jsonify
 from flask import request
 from flask_pymongo import PyMongo
@@ -13,12 +14,13 @@ with open("config.txt") as file:
     line = file.read()
 pword = line
 
-
+app.config['SECRET_KEY'] = '9C494A6376164C5B8044A6465F47FC79'
 app.config['MONGO_DBNAME'] = 'test'
 app.config['MONGO_URI'] = 'mongodb://apiuser:' + \
     urllib.parse.quote_plus(pword) + \
     '@ds211029.mlab.com:11029/polltalk'
 mongo = PyMongo(app)
+socketio = SocketIO(app)
 
 # Gets the information for a given poll.
 # Serves as both the admin data returner and the user data returner
@@ -108,5 +110,29 @@ def closepoll(pollid):
     return jsonify({'result': output})
 
 
+@socketio.on('join')
+def on_join(data):
+    pollid = data['pollid']
+    room = data['room']
+    join_room(room)
+    send(get_poll((pollid)), room=room)
+
+
+@socketio.on('leave')
+def on_leave(data):
+    room = data['room']
+    leave_room(room)
+
+
+@socketio.on('messege')
+def on_messege(data):
+    room = data['room']
+    pollid = data['pollid']
+    messege = data['messege']
+    option = data['option']
+    # update messege
+    send(get_poll(pollid), room=room)
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
