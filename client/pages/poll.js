@@ -63,7 +63,7 @@ class CreatePoll extends React.Component {
         <p>Poll View</p>
         <p>{JSON.stringify(this.props.pollInfo)}</p>
         {console.log(this.props.pollInfo)}
-        <PollList />
+        <PollList pollInfo={this.props.pollInfo} />
       </div>
     );
   }
