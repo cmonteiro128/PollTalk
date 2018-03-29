@@ -12,6 +12,7 @@ import globalStore from '../store';
 import fetch from 'isomorphic-unfetch';
 
 import { getPollInfoAsync } from '../actions/pollView';
+import PollList from '../components/PollList';
 
 // Adds server generated styles to emotion cache.
 // '__NEXT_DATA__.ids' is set in '_document.js'
@@ -36,7 +37,8 @@ const getPollInfo = (pollID) => {
 };
 
 class CreatePoll extends React.Component {
-  static async getInitialProps({ query }) {
+  static async getInitialProps({ store, query }) {
+    // store.dispatch(getPollInfoAsync(query.id));
     const test = await getPollInfo(query.id);
     return { pollInfo: test };
   }
@@ -61,6 +63,7 @@ class CreatePoll extends React.Component {
         <p>Poll View</p>
         <p>{JSON.stringify(this.props.pollInfo)}</p>
         {console.log(this.props.pollInfo)}
+        <PollList pollInfo={this.props.pollInfo} />
       </div>
     );
   }
