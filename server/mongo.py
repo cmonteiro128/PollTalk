@@ -31,7 +31,7 @@ def get_poll(pollid):
     poll = mongo.db.polls
     # pollid = request.json['pollid']
     if len(pollid) == 8:
-        pollobject = poll.find_one({'pollID': pollid})
+        pollobject = poll.find_one({'pollID': pollid, 'open': True})
         if pollobject:
             output = {'pollName': pollobject['pollName'],
                       'options': pollobject['options'], }
@@ -80,7 +80,7 @@ def create_poll():
 @cross_origin()
 def vote(pollid, option):
     poll = mongo.db.polls
-    pollobject = poll.find_one({'pollID': pollid})
+    pollobject = poll.find_one({'pollID': pollid, 'open': True})
     if pollobject:
         pollobject['options'][int(option)]['count'] += 1
         poll.update({'pollID': pollid}, pollobject)
@@ -101,7 +101,7 @@ def closepoll(pollid):
     pollobject = poll.find_one({'adminID': pollid})
     if pollobject:
         pollobject['open'] = False
-        poll.update({"pollID": pollid}, pollobject)
+        poll.update({"adminID": pollid}, pollobject)
         output = "Closed"
     else:
         output = "COULD NOT FIND"
