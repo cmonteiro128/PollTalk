@@ -1,3 +1,5 @@
+import Router from 'next/router';
+
 // Actions for Create Poll page
 export const ADD_POLL_OPTION = 'ADD_POLL_OPTION';
 export const ADD_POLL_NAME = 'ADD_POLL_NAME';
@@ -11,10 +13,12 @@ export function addPollOption(option) {
   };
 }
 
-export function addPollName(option) {
-  return {
-    type: ADD_POLL_OPTION,
-    option,
+export function pushToPollView(pollID) {
+  return () => {
+    Router.push({
+      pathname: '/poll',
+      query: { id: pollID },
+    });
   };
 }
 
@@ -39,8 +43,8 @@ export function createPollAsync(pollOptions, pollName) {
       .then(response => response.json())
       .then((json) => {
         const { pollID } = json.result;
-        console.log(pollID);
         dispatch(createPoll(pollID));
+        dispatch(pushToPollView(pollID));
       });
   };
 }

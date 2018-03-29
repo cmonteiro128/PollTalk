@@ -12,6 +12,8 @@ import globalStore from '../store';
 
 import { addPollOption, createPollAsync } from '../actions/createPoll';
 
+const uuidv4 = require('uuid/v4');
+
 // Centering style for grid, need to inject globally
 injectGlobal`body > div, body > div > div, body > div > div > div {height: 100%}`; // eslint-disable-line
 
@@ -39,11 +41,17 @@ class CreatePoll extends React.Component {
     // State
     const { pollOptions } = this.props;
 
-    const pollList = pollOptions.map((item, i) => (
-      <Message size="small">
-        <Message.Header key={i}>{item}</Message.Header>
-      </Message>
-    ));
+    let uniqueKey1;
+    let uniqueKey2;
+    const pollList = pollOptions.map((item) => {
+      uniqueKey1 = uuidv4();
+      uniqueKey2 = uuidv4();
+      return (
+        <Message key={uniqueKey1} size="small">
+          <Message.Header key={uniqueKey2}>{item}</Message.Header>
+        </Message>
+      );
+    });
 
     return (
       <div>
