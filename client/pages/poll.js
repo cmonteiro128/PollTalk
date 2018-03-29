@@ -19,7 +19,8 @@ if (typeof window !== 'undefined') {
 class CreatePoll extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { pollID: props.url.query.id };
+    console.log(props.url.query.id);
   }
 
   render() {
@@ -31,6 +32,7 @@ class CreatePoll extends React.Component {
       <div>
         <Head title="PollTalk | View Poll" />
         <p>Poll View</p>
+        <p>{this.state.pollID}</p>
       </div>
     );
   }
