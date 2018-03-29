@@ -1,7 +1,7 @@
 // Actions for View Poll page
 export const GET_POLL_INFO = 'GET_POLL_INFO';
 
-function getPollInfo(option) {
+export function getPollInfo(option) {
   return {
     type: GET_POLL_INFO,
     option,
@@ -19,6 +19,7 @@ export function getPollInfoAsync(pollID) {
       .then(response => response.json())
       .then((json) => {
         const pollInfo = json;
+        console.log('this has run');
         dispatch(getPollInfo(pollInfo));
       });
   };
