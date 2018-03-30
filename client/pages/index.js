@@ -78,6 +78,8 @@ class CreatePoll extends React.Component {
                 {pollList}
                 <Form.Field>
                   <Input
+                    label="140"
+                    labelPosition="right"
                     fluid
                     icon="checkmark box"
                     iconPosition="left"
@@ -88,6 +90,7 @@ class CreatePoll extends React.Component {
                       <Button
                         id="add-button"
                         icon="plus"
+                        color="green"
                         style={{
                           borderTopRightRadius: '0.285714rem',
                           borderBottomRightRadius: '0.285714rem',
