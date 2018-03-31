@@ -42,13 +42,11 @@ class CreatePoll extends React.Component {
     const { pollOptions } = this.props;
 
     let uniqueKey1;
-    let uniqueKey2;
     const pollList = pollOptions.map((item) => {
       uniqueKey1 = uuidv4();
-      uniqueKey2 = uuidv4();
       return (
         <Message key={uniqueKey1} size="small">
-          <Message.Header key={uniqueKey2}>{item}</Message.Header>
+          <Message.Header>{item}</Message.Header>
         </Message>
       );
     });

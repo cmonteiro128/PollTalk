@@ -26,7 +26,8 @@ class CreatePoll extends React.Component {
   static async getInitialProps({ store, query }) {
     const pollData = await getPollInfoAsync(query.id);
     await store.dispatch(getPollInfo(pollData));
-    return { pollInfo: pollData };
+    const pollDataFromState = store.getState().PollView.pollInfo[0];
+    return { pollInfo: pollDataFromState };
   }
 
   constructor(props) {
