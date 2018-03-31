@@ -11,7 +11,7 @@ import Head from '../components/head';
 import globalStore from '../store';
 import fetch from 'isomorphic-unfetch';
 
-import { getPollInfoAsync } from '../actions/pollView';
+import { getPollInfoAsync, getPollInfoInit } from '../actions/pollView';
 import PollList from '../components/PollList';
 
 // Adds server generated styles to emotion cache.
@@ -19,7 +19,7 @@ import PollList from '../components/PollList';
 if (typeof window !== 'undefined') {
   hydrate(window.__NEXT_DATA__.ids);
 }
-
+/*
 const getPollInfo = (pollID) => {
   const test = fetch(`http://localhost:5000/poll/${pollID}`, {
     mode: 'cors',
@@ -34,13 +34,16 @@ const getPollInfo = (pollID) => {
       return pollInfo;
     });
   return test;
-};
+}; */
 
 class CreatePoll extends React.Component {
   static async getInitialProps({ store, query }) {
-    // store.dispatch(getPollInfoAsync(query.id));
-    const test = await getPollInfo(query.id);
-    return { pollInfo: test };
+    const action = await getPollInfoAsync(query.id);
+    // const action = await getPollInfoInit(query.id);
+    store.dispatch(action);
+
+    // const test = await getPollInfo(query.id);
+    // return { pollInfo: test };
   }
 
   constructor(props) {

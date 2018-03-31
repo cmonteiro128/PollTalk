@@ -2,6 +2,7 @@
 export const GET_POLL_INFO = 'GET_POLL_INFO';
 
 export function getPollInfo(option) {
+  console.log('this has run');
   return {
     type: GET_POLL_INFO,
     option,
@@ -9,7 +10,7 @@ export function getPollInfo(option) {
 }
 
 export function getPollInfoAsync(pollID) {
-  return (dispatch) => {
+  return dispatch =>
     fetch(`http://localhost:5000/poll/${pollID}`, {
       mode: 'cors',
       headers: {
@@ -18,9 +19,17 @@ export function getPollInfoAsync(pollID) {
     })
       .then(response => response.json())
       .then((json) => {
-        const pollInfo = json;
         console.log('this has run');
-        dispatch(getPollInfo(pollInfo));
+        dispatch({
+          type: GET_POLL_INFO,
+          json,
+        });
       });
+}
+
+export function getPollInfoInit(pollID) {
+  console.log('this has run');
+  return (dispatch) => {
+    dispatch(getPollInfoAsync(pollID));
   };
 }
