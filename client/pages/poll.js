@@ -13,6 +13,8 @@ import fetch from 'isomorphic-unfetch';
 
 import { getPollInfoAsync, getPollInfoInit } from '../actions/pollView';
 import PollList from '../components/PollList';
+import { Grid } from 'semantic-ui-react';
+import { css } from 'emotion';
 
 // Adds server generated styles to emotion cache.
 // '__NEXT_DATA__.ids' is set in '_document.js'
@@ -63,10 +65,15 @@ class CreatePoll extends React.Component {
     return (
       <div>
         <Head title="PollTalk | View Poll" />
-        <p>Poll View</p>
-        <p>{JSON.stringify(this.props.pollInfo)}</p>
-        {console.log(this.props.pollInfo)}
-        <PollList />
+        <Grid textAlign="center" verticalAlign="middle">
+          <Grid.Column
+            className={css`
+              max-width: 450px;
+            `}
+          >
+            <PollList pollInfo={this.props.pollInfo} />
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
