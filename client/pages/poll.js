@@ -11,7 +11,7 @@ import Head from '../components/head';
 import globalStore from '../store';
 import fetch from 'isomorphic-unfetch';
 
-import { getPollInfoAsync, getPollInfoInit } from '../actions/pollView';
+import { getPollInfoAsync, getPollInfo } from '../actions/pollView';
 import PollList from '../components/PollList';
 import { Grid } from 'semantic-ui-react';
 import { css } from 'emotion';
@@ -21,31 +21,12 @@ import { css } from 'emotion';
 if (typeof window !== 'undefined') {
   hydrate(window.__NEXT_DATA__.ids);
 }
-/*
-const getPollInfo = (pollID) => {
-  const test = fetch(`http://localhost:5000/poll/${pollID}`, {
-    mode: 'cors',
-    headers: {
-      'content-type': 'application/json',
-    },
-  })
-    .then(response => response.json())
-    .then((json) => {
-      const pollInfo = json;
-      // dispatch(getPollInfo(pollInfo));
-      return pollInfo;
-    });
-  return test;
-}; */
 
 class CreatePoll extends React.Component {
   static async getInitialProps({ store, query }) {
-    const action = await getPollInfoAsync(query.id);
-    // const action = await getPollInfoInit(query.id);
-    store.dispatch(action);
-
-    // const test = await getPollInfo(query.id);
-    // return { pollInfo: test };
+    const pollData = await getPollInfoAsync(query.id);
+    await store.dispatch(getPollInfo(pollData));
+    return { pollInfo: pollData };
   }
 
   constructor(props) {

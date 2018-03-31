@@ -21,7 +21,7 @@ What our state looks like:
         pollName:"",
         obtainedPollID:""
     },
-    ViewPoll: {
+    PollVIew: {
       pollInfo: [],
     }
 }

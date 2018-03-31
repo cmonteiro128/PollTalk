@@ -90,7 +90,6 @@ class CreatePoll extends React.Component {
                       <Button
                         id="add-button"
                         icon="plus"
-                        color="green"
                         style={{
                           borderTopRightRadius: '0.285714rem',
                           borderBottomRightRadius: '0.285714rem',
