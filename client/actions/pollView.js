@@ -1,3 +1,6 @@
+import io from 'socket.io-client';
+import store from '../store';
+
 // Actions for View Poll page
 export const GET_POLL_INFO = 'GET_POLL_INFO';
 
@@ -9,13 +12,25 @@ export function getPollInfo(option) {
 }
 
 export function getPollInfoAsync(pollID) {
-  const json = fetch(`http://localhost:5000/poll/${pollID}`, {
-    mode: 'cors',
-    headers: {
-      'content-type': 'application/json',
-    },
-  })
-    .then(response => response.json())
-    .then(json => json);
-  return json;
+  return async (dispatch) => {
+    const response = await fetch(`http://localhost:5000/poll/${pollID}`, {
+      mode: 'cors',
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+    const json = await response.json();
+    dispatch(getPollInfo(json));
+  };
+}
+
+export function intiateSocket() {
+  return (dispatch, getState) => {
+    const socket = io('http://localhost:5000');
+    const room = getState().PollView.pollInfo[0].result.pollID;
+    socket.on('connect', (socket) => {
+      socket.emit('room', room);
+      socket.emit('pollid', room);
+    });
+  };
 }

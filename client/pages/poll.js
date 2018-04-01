@@ -2,19 +2,17 @@
 /* global window */
 
 import React from 'react';
-// import { Button, Form, Grid, Header, Segment, Input, Message } from 'semantic-ui-react';
-// import { css } from 'emotion';
 import { hydrate } from 'react-emotion';
-import withRedux from 'next-redux-wrapper';
-// import { bindActionCreators } from 'redux';
-import Head from '../components/head';
-import globalStore from '../store';
-import fetch from 'isomorphic-unfetch';
-
-import { getPollInfoAsync, getPollInfo } from '../actions/pollView';
-import PollList from '../components/PollList';
+import { bindActionCreators } from 'redux';
 import { Grid } from 'semantic-ui-react';
 import { css } from 'emotion';
+
+import withRedux from 'next-redux-wrapper';
+import Head from '../components/head';
+import globalStore from '../store';
+
+import { getPollInfoAsync, intiateSocket } from '../actions/pollView';
+import PollList from '../components/PollList';
 
 // Adds server generated styles to emotion cache.
 // '__NEXT_DATA__.ids' is set in '_document.js'
@@ -24,8 +22,7 @@ if (typeof window !== 'undefined') {
 
 class CreatePoll extends React.Component {
   static async getInitialProps({ store, query }) {
-    const pollData = await getPollInfoAsync(query.id);
-    await store.dispatch(getPollInfo(pollData));
+    await store.dispatch(getPollInfoAsync(query.id));
     const pollDataFromState = store.getState().PollView.pollInfo[0];
     return { pollInfo: pollDataFromState };
   }
@@ -37,9 +34,12 @@ class CreatePoll extends React.Component {
     console.log(props.url.query.id);
   }
 
+  componentDidMount() {
+    intiateSocket();
+  }
   render() {
     // Dispatchers
-    const { getPollInfoAsync } = this.props;
+    // const { getPollInfoAsync } = this.props;
 
     // State
     const { pollInfo } = this.props;
@@ -53,17 +53,17 @@ class CreatePoll extends React.Component {
               max-width: 450px;
             `}
           >
-            <PollList pollInfo={this.props.pollInfo} />
+            <PollList pollInfo={pollInfo} />
           </Grid.Column>
         </Grid>
       </div>
     );
   }
 }
-/* const mapStateToProps = state => ({
-  pollInfo: state.ViewPoll.pollInfo,
-}); */
+const mapStateToProps = state => ({
+  pollInfo: state.PollView.pollInfo[0],
+});
 
-// const mapDispatchToProps = dispatch => bindActionCreators({ getPollInfoAsync }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ intiateSocket }, dispatch);
 
-export default withRedux(globalStore)(CreatePoll);
+export default withRedux(globalStore, mapStateToProps, mapDispatchToProps)(CreatePoll);

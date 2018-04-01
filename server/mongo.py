@@ -36,7 +36,8 @@ def get_poll(pollid):
         pollobject = poll.find_one({'pollID': pollid, 'open': True})
         if pollobject:
             output = {'pollName': pollobject['pollName'],
-                      'options': pollobject['options'], }
+                      'pollID': pollobject['pollID'],
+                      'options': pollobject['options']}
         else:
             output = "COULD NOT FIND"
     elif len(pollid) == 32:
@@ -124,12 +125,12 @@ def on_leave(data):
     leave_room(room)
 
 
-@socketio.on('messege')
+@socketio.on('message')
 def on_messege(data):
     room = data['room']
     pollid = data['pollid']
-    messege = data['messege']
-    option = data['option']
+    message = data['message']
+    #option = data['option']
     # update messege
     send(get_poll(pollid), room=room)
 
