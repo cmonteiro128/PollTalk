@@ -76,7 +76,11 @@ class CreatePoll extends React.Component {
                 {pollList}
                 <Form.Field>
                   <Input
-                    label="140"
+                    multiline
+                    numberOfLines={6}
+                    maxLength={140}
+                    onChangeText={pollText => this.setState({ pollText })}
+                    label={140 - this.state.pollText.length}
                     labelPosition="right"
                     fluid
                     icon="checkmark box"
