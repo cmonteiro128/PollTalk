@@ -29,9 +29,6 @@ const PollList = (props) => {
 
   return (
     <React.Fragment>
-      <Header as="h2" color="blue" textAlign="center">
-        {props.pollInfo.result.pollName}
-      </Header>
       <Form size="large">
         <Segment stacked>{optionList}</Segment>
       </Form>

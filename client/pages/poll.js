@@ -4,7 +4,7 @@
 import React from 'react';
 import { hydrate } from 'react-emotion';
 import { bindActionCreators } from 'redux';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 import { css } from 'emotion';
 
 import withRedux from 'next-redux-wrapper';
@@ -13,6 +13,7 @@ import globalStore from '../store';
 
 import { getPollInfoAsync, intiateSocket } from '../actions/pollView';
 import PollList from '../components/PollList';
+import ChatRoom from '../components/ChatRoom';
 
 // Adds server generated styles to emotion cache.
 // '__NEXT_DATA__.ids' is set in '_document.js'
@@ -45,17 +46,39 @@ class CreatePoll extends React.Component {
     const { pollInfo } = this.props;
 
     return (
-      <div>
+      <div align="center">
         <Head title="PollTalk | View Poll" />
-        <Grid textAlign="center" verticalAlign="middle">
-          <Grid.Column
-            className={css`
-              max-width: 450px;
-            `}
-          >
-            <PollList pollInfo={pollInfo} />
-          </Grid.Column>
-        </Grid>
+        <Segment.Group>
+          <Segment>
+            <Header
+              as="h2"
+              color="blue"
+              textAlign="center"
+              className={css`
+                margin-bottom: 50%;
+              `}
+            >
+              {pollInfo.result.pollName}
+            </Header>
+          </Segment>
+          <Segment padded="very">
+            <Grid
+              textAlign="center"
+              verticalAlign="middle"
+              columns={2}
+              className={css`
+                max-width: 50%;
+              `}
+            >
+              <Grid.Column width={8}>
+                <PollList pollInfo={pollInfo} />
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <ChatRoom pollInfo={pollInfo} />
+              </Grid.Column>
+            </Grid>
+          </Segment>
+        </Segment.Group>
       </div>
     );
   }
