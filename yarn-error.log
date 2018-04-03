@@ -1,0 +1,33 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add isomorphoc-unfetch
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:/Applications/Wireshark.app/Contents/MacOS:/Library/Frameworks/Python.framework/Versions/3.6/bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  6.11.2
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Couldn't find package "isomorphoc-unfetch" on the "npm" registry.
+      at MessageError.Error (native)
+      at new MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at NpmResolver.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:51625:15)
+      at next (native)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:109:13
+      at process._tickCallback (internal/process/next_tick.js:109:7)

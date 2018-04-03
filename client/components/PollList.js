@@ -30,7 +30,7 @@ const PollList = (props) => {
   return (
     <React.Fragment>
       <Form size="large">
-        <Segment stacked>{optionList}</Segment>
+        <Segment>{optionList}</Segment>
       </Form>
     </React.Fragment>
   );

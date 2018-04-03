@@ -4,7 +4,7 @@
 import React from 'react';
 import { hydrate } from 'react-emotion';
 import { bindActionCreators } from 'redux';
-import { Grid, Header, Segment } from 'semantic-ui-react';
+import { Grid, Header, Segment, Button, Icon } from 'semantic-ui-react';
 import { css } from 'emotion';
 
 import withRedux from 'next-redux-wrapper';
@@ -38,6 +38,11 @@ class CreatePoll extends React.Component {
   componentDidMount() {
     intiateSocket();
   }
+
+  handleNewSuggestion = () => {
+    // this.props.createPollAsync(this.props.pollOptions, this.state.pollName);
+  };
+
   render() {
     // Dispatchers
     // const { getPollInfoAsync } = this.props;
@@ -72,6 +77,17 @@ class CreatePoll extends React.Component {
             >
               <Grid.Column width={8}>
                 <PollList pollInfo={pollInfo} />
+                <Button
+                  icon
+                  color="blue"
+                  fluid
+                  size="large"
+                  labelPosition="left"
+                  onClick={this.handleNewSuggestion}
+                >
+                  <Icon name="add" />
+                  Suggest New Option
+                </Button>
               </Grid.Column>
               <Grid.Column width={8}>
                 <ChatRoom pollInfo={pollInfo} />
