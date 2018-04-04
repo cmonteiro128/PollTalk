@@ -46,7 +46,8 @@ def internal_get_poll(pollid):
         if pollobject:
             output = {'pollName': pollobject['pollName'],
                       'pollID': pollobject['pollID'],
-                      'options': pollobject['options']}
+                      'options': pollobject['options'],
+                      'totalVotes': pollobject['totalVotes']}
         else:
             output = "COULD NOT FIND"
     elif len(pollid) == 32:
@@ -55,7 +56,8 @@ def internal_get_poll(pollid):
             output = {'pollName': pollobject['pollName'],
                       'options': pollobject['options'],
                       'open': pollobject['open'],
-                      'pollID': pollobject['pollID']}
+                      'pollID': pollobject['pollID'],
+                      'totalVotes': pollobject['totalVotes']}
         else:
             output = "COULD NOT FIND"
     return output
@@ -80,9 +82,10 @@ def create_poll():
         })
     pollName = request.json['pollName']
     poll.insert({'pollID': pollid, 'pollName': pollName,
-                 'options': options, 'open': True, 'adminID': secretPollID})
+                 'options': options, 'open': True, 'adminID': secretPollID,
+                 'totalVotes': 0})
     output = {'pollName': pollName, 'options': options,
-              'pollID': pollid, 'adminID': secretPollID}
+              'pollID': pollid, 'adminID': secretPollID, 'totalVotes': 0}
     return jsonify({'result': output})
 
 # Used to vote in the polls, increments the count for the
@@ -96,6 +99,7 @@ def vote(pollid, option):
     pollobject = poll.find_one({'pollID': pollid, 'open': True})
     if pollobject:
         pollobject['options'][int(option)]['count'] += 1
+        pollobject['totalVotes'] += 1
         poll.update({'pollID': pollid}, pollobject)
         output = {'pollName': pollobject['pollName'],
                   'options': pollobject['options']}
