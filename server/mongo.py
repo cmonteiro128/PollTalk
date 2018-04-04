@@ -121,12 +121,12 @@ def closepoll(pollid):
     return jsonify({'result': output})
 
 
-def add_to_chat(pollid, option, messege, name):
+def add_to_chat(pollid, option, message, name):
     poll = mongo.db.polls
     pollobject = poll.find_one({'pollID': pollid, 'open': True})
     if pollobject:
         pollobject['options'][int(option)]['chat'].append(
-            {'messege': messege, 'name': name})
+            {'message': message, 'name': name})
         poll.update({'pollID': pollid}, pollobject)
 
 #
@@ -170,11 +170,10 @@ def on_vote(data):
 @socketio.on('chat')
 def on_chat(data):
     room = data['room']
-    messege = data['messege']
+    message = data['message']
     name = data['name']
     option = data['option']
-
-    add_to_chat(room, option, messege, name)
+    add_to_chat(room, option, message, name)
     data = internal_get_poll(room)
     socketio.emit('new_Data', {'result': data}, room=room, json=True)
 

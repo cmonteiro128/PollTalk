@@ -11,7 +11,7 @@ import withRedux from 'next-redux-wrapper';
 import Head from '../components/head';
 import globalStore from '../store';
 
-import { getPollInfoAsync, intiateSocket } from '../actions/pollView';
+import { getPollInfoAsync, intiateSocket, vote, addChat } from '../actions/pollView';
 import PollList from '../components/PollList';
 import ChatRoom from '../components/ChatRoom';
 
@@ -45,14 +45,14 @@ class CreatePoll extends React.Component {
 
   render() {
     // Dispatchers
-    // const { getPollInfoAsync } = this.props;
+    const { vote, addChat } = this.props;
 
     // State
     const { pollInfo } = this.props;
 
-    const ChatRooms = pollInfo.result.options.map(() => (
+    const ChatRooms = pollInfo.result.options.map((item, i) => (
       <Grid.Column width={4}>
-        <ChatRoom pollInfo={pollInfo} />
+        <ChatRoom chatIndex={i} pollInfo={pollInfo} />
       </Grid.Column>
     ));
 
@@ -88,6 +88,7 @@ const mapStateToProps = state => ({
   pollInfo: state.PollView.pollInfo[0],
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ intiateSocket }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ intiateSocket, vote, addChat }, dispatch);
 
 export default withRedux(globalStore, mapStateToProps, mapDispatchToProps)(CreatePoll);

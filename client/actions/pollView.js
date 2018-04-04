@@ -44,9 +44,21 @@ export function intiateSocket() {
 }
 
 export function vote(option) {
-  return () => {
-    socket.emit('vote', { option });
+  return (dispatch, getState) => {
     const room = getState().PollView.pollInfo[0].result.pollID;
+    socket.emit('vote', { room, option });
     console.log({ option, room });
+  };
+}
+
+export function addChat(option, name, message) {
+  return (dispatch, getState) => {
+    const room = getState().PollView.pollInfo[0].result.pollID;
+    socket.emit('chat', {
+      room,
+      option,
+      name,
+      message,
+    });
   };
 }
