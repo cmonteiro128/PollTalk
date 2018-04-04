@@ -14,6 +14,7 @@ const PollList = (props) => {
           <Message>
             <Message.Header>Option {i + 1}</Message.Header>
             <p>{item.option}</p>
+            <p> Count:{item.count}</p>
           </Message>
         </Grid.Column>
         <Grid.Column width={2} verticalAlign="middle">

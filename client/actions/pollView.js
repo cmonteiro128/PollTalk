@@ -26,10 +26,11 @@ export function getPollInfoAsync(pollID) {
   };
 }
 
+const socket = io('http://localhost:5000');
+
 export function intiateSocket() {
   return (dispatch, getState) => {
     console.log('Socket Initializing');
-    const socket = io('http://localhost:5000');
     const room = getState().PollView.pollInfo[0].result.pollID;
     socket.on('connect', () => {
       socket.emit('join', { room, message: 'Test' });
@@ -39,5 +40,13 @@ export function intiateSocket() {
         console.log(data);
       });
     });
+  };
+}
+
+export function vote(option) {
+  return () => {
+    socket.emit('vote', { option });
+    const room = getState().PollView.pollInfo[0].result.pollID;
+    console.log({ option, room });
   };
 }
