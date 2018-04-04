@@ -1,5 +1,15 @@
 import React from 'react';
-import { Progress, Button, Form, Grid, Segment, Icon, Header } from 'semantic-ui-react';
+import {
+  Progress,
+  Button,
+  Form,
+  Grid,
+  Segment,
+  Icon,
+  Header,
+  Message,
+  Input,
+} from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -67,6 +77,31 @@ class PollList extends React.Component {
         <Form size="large">
           <Segment>{optionList}</Segment>
         </Form>
+        <Message>
+          <Input
+            multiline
+            numberOfLines={6}
+            maxLength={140}
+            label={140}
+            labelPosition="right"
+            fluid
+            icon="checkmark box"
+            iconPosition="left"
+            placeholder="Poll Question"
+            action={
+              <Button
+                id="add-button"
+                icon="plus"
+                color="blue"
+                style={{
+                  borderTopRightRadius: '0.285714rem',
+                  borderBottomRightRadius: '0.285714rem',
+                }}
+                onClick={() => {}}
+              />
+            }
+          />
+        </Message>
         <Button
           icon
           color="blue"

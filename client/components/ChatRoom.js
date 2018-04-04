@@ -99,7 +99,7 @@ class ChatRoom extends React.Component {
     if (this.props.openRooms.includes(this.props.chatIndex)) {
       const chatRoom = this.props.pollInfo.result.options[this.props.chatIndex].chat.map((item) => {
         uniqueKey1 = uuidv4();
-        if (item.length === 0) return null;
+        if (item.length === 0) return <Feed />;
         return (
           <Feed.Event>
             <Feed.Label icon="user circle" />

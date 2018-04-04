@@ -67,14 +67,12 @@ class CreatePoll extends React.Component {
     return (
       <div align="center">
         <Head title="PollTalk | View Poll" />
-        <Menu>
-          <Container
-            className={css`
-              margin-left: 50%;
-            `}
-          >
-            <Menu.Item name="editorials">{pollInfo.result.pollName}</Menu.Item>
-          </Container>
+        <Menu fluid widths={3}>
+          <Menu.Item name="" />
+          <Menu.Item name="pollName">
+            <Header as="h2">{pollInfo.result.pollName}</Header>
+          </Menu.Item>
+          <Menu.Item name="" />
         </Menu>
         <Grid
           textAlign="center"
