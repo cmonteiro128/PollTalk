@@ -1,11 +1,11 @@
 import io from 'socket.io-client';
-import store from '../store';
 import fetch from 'isomorphic-unfetch';
 
 // Actions for View Poll page
 export const GET_POLL_INFO = 'GET_POLL_INFO';
 
 export function getPollInfo(option) {
+  console.log(option);
   return {
     type: GET_POLL_INFO,
     option,
@@ -22,17 +22,43 @@ export function getPollInfoAsync(pollID) {
     });
     const json = await response.json();
     dispatch(getPollInfo(json));
+    console.log(json);
   };
 }
 
+const socket = io('http://localhost:5000');
+
 export function intiateSocket() {
-  console.log('Socket Initializing');
   return (dispatch, getState) => {
-    const socket = io('http://localhost:5000');
+    console.log('Socket Initializing');
     const room = getState().PollView.pollInfo[0].result.pollID;
-    socket.on('connect', (socket) => {
-      socket.emit('room', room);
+    socket.on('connect', () => {
+      socket.emit('join', { room, message: 'Test' });
       socket.emit('pollid', room);
+      socket.on('new_Data', (data) => {
+        dispatch(getPollInfo(data));
+        console.log(data);
+      });
+    });
+  };
+}
+
+export function vote(option) {
+  return (dispatch, getState) => {
+    const room = getState().PollView.pollInfo[0].result.pollID;
+    socket.emit('vote', { room, option });
+    console.log({ option, room });
+  };
+}
+
+export function addChat(option, name, message) {
+  return (dispatch, getState) => {
+    const room = getState().PollView.pollInfo[0].result.pollID;
+    socket.emit('chat', {
+      room,
+      option,
+      name,
+      message,
     });
   };
 }

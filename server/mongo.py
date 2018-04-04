@@ -22,6 +22,10 @@ app.config['MONGO_URI'] = 'mongodb://apiuser:' + \
 mongo = PyMongo(app)
 socketio = SocketIO(app)
 
+#
+#   ROUTES FOR API'S
+#
+
 # Gets the information for a given poll.
 # Serves as both the admin data returner and the user data returner
 # Determined by the length of the poll ID given
@@ -30,6 +34,11 @@ socketio = SocketIO(app)
 @app.route('/poll/<pollid>', methods=['GET'])
 @cross_origin()
 def get_poll(pollid):
+    output = internal_get_poll(pollid)
+    return jsonify({'result': output})
+
+
+def internal_get_poll(pollid):
     poll = mongo.db.polls
     # pollid = request.json['pollid']
     if len(pollid) == 8:
@@ -49,7 +58,7 @@ def get_poll(pollid):
                       'pollID': pollobject['pollID']}
         else:
             output = "COULD NOT FIND"
-    return jsonify({'result': output})
+    return output
 
 # Creates a poll and returns the Admin ID, and the POll ID
 # Accepts a json with the format {'pollName','options[]'}
@@ -67,6 +76,7 @@ def create_poll():
         options.append({
             'option': option,
             'count': 0,
+            'chat': []
         })
     pollName = request.json['pollName']
     poll.insert({'pollID': pollid, 'pollName': pollName,
@@ -111,12 +121,31 @@ def closepoll(pollid):
     return jsonify({'result': output})
 
 
+def add_to_chat(pollid, option, message, name):
+    poll = mongo.db.polls
+    pollobject = poll.find_one({'pollID': pollid, 'open': True})
+    if pollobject:
+        pollobject['options'][int(option)]['chat'].append(
+            {'message': message, 'name': name})
+        poll.update({'pollID': pollid}, pollobject)
+
+#
+#   SOCKET CONNECTIONS
+#
+
+# data = {room}
+
+
 @socketio.on('join')
 def on_join(data):
-    pollid = data['pollid']
+    print('joined room ' + data['room'])
     room = data['room']
     join_room(room)
-    send(get_poll((pollid)), room=room)
+    # send(get_poll((pollid)), room=room)
+    data = internal_get_poll(room)
+    socketio.emit('new_Data', {'result': data}, room=room, json=True)
+
+# data = {room}
 
 
 @socketio.on('leave')
@@ -124,15 +153,29 @@ def on_leave(data):
     room = data['room']
     leave_room(room)
 
+# data = { room, option}
 
-@socketio.on('message')
-def on_messege(data):
+
+@socketio.on('vote')
+def on_vote(data):
     room = data['room']
-    pollid = data['pollid']
+    data = data['option']
+    vote(room, data)
+    data = internal_get_poll(room)
+    socketio.emit('new_Data', {'result': data}, room=room, json=True)
+
+# data = {room, messege, name, option}
+
+
+@socketio.on('chat')
+def on_chat(data):
+    room = data['room']
     message = data['message']
-    #option = data['option']
-    # update messege
-    send(get_poll(pollid), room=room)
+    name = data['name']
+    option = data['option']
+    add_to_chat(room, option, message, name)
+    data = internal_get_poll(room)
+    socketio.emit('new_Data', {'result': data}, room=room, json=True)
 
 
 if __name__ == '__main__':

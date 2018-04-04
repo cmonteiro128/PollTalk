@@ -4,14 +4,14 @@
 import React from 'react';
 import { hydrate } from 'react-emotion';
 import { bindActionCreators } from 'redux';
-import { Grid, Header, Segment, Button, Icon, Input, Message } from 'semantic-ui-react';
+import { Container, Grid, Header, Segment, Menu } from 'semantic-ui-react';
 import { css } from 'emotion';
 
 import withRedux from 'next-redux-wrapper';
 import Head from '../components/head';
 import globalStore from '../store';
 
-import { getPollInfoAsync, intiateSocket } from '../actions/pollView';
+import { getPollInfoAsync, intiateSocket, vote, addChat } from '../actions/pollView';
 import PollList from '../components/PollList';
 import ChatRoom from '../components/ChatRoom';
 
@@ -25,21 +25,18 @@ class CreatePoll extends React.Component {
   static async getInitialProps({ store, query }) {
     await store.dispatch(getPollInfoAsync(query.id));
     const pollDataFromState = store.getState().PollView.pollInfo[0];
+
     return { pollInfo: pollDataFromState };
   }
 
   constructor(props) {
     super(props);
     // this.state = { pollID: props.url.query.id };
-    this.state = {
-      isHidden: true,
-      chatIsHidden: true,
-    };
     console.log(props.url.query.id);
   }
 
   componentDidMount() {
-    intiateSocket();
+    this.props.intiateSocket();
   }
 
   handleNewSuggestion = () => {
@@ -56,57 +53,41 @@ class CreatePoll extends React.Component {
 
   render() {
     // Dispatchers
-    // const { getPollInfoAsync } = this.props;
+    const { vote, addChat } = this.props;
 
     // State
     const { pollInfo } = this.props;
 
+    const ChatRooms = pollInfo.result.options.map((item, i) => (
+      <Grid.Column width={4}>
+        <ChatRoom chatIndex={i} pollInfo={pollInfo} />
+      </Grid.Column>
+    ));
+
     return (
       <div align="center">
         <Head title="PollTalk | View Poll" />
-        <Segment.Group>
-          <Segment>
-            <Header
-              as="h2"
-              color="blue"
-              textAlign="center"
-              className={css`
-                margin-bottom: 50%;
-              `}
-            >
-              {pollInfo.result.pollName}
-            </Header>
-          </Segment>
-          <Segment padded="very">
-            <Grid
-              textAlign="center"
-              verticalAlign="middle"
-              columns={2}
-              className={css`
-                max-width: 50%;
-              `}
-            >
-              <Grid.Column width={8}>
-                <PollList pollInfo={pollInfo} />
-                <Button
-                  icon
-                  color="blue"
-                  fluid
-                  size="large"
-                  labelPosition="left"
-                  onClick={this.handleNewSuggestion}
-                >
-                  <Icon name="add" />
-                  Suggest New Option
-                </Button>
-                {!this.state.isHidden && <SuggestionField />}
-              </Grid.Column>
-              <Grid.Column width={8}>
-                {!this.state.chatIsHidden && <ChatRoom pollInfo={pollInfo} />}
-              </Grid.Column>
-            </Grid>
-          </Segment>
-        </Segment.Group>
+        <Menu>
+          <Container
+            className={css`
+              margin-left: 50%;
+            `}
+          >
+            <Menu.Item name="editorials">{pollInfo.result.pollName}</Menu.Item>
+          </Container>
+        </Menu>
+        <Grid
+          textAlign="center"
+          verticalAlign="middle"
+          className={css`
+            max-width: 95%;
+          `}
+        >
+          <Grid.Column width={4}>
+            <PollList pollInfo={pollInfo} />
+          </Grid.Column>
+          {ChatRooms}
+        </Grid>
       </div>
     );
   }
@@ -144,6 +125,7 @@ const mapStateToProps = state => ({
   pollInfo: state.PollView.pollInfo[0],
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ intiateSocket }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ intiateSocket, vote, addChat }, dispatch);
 
 export default withRedux(globalStore, mapStateToProps, mapDispatchToProps)(CreatePoll);

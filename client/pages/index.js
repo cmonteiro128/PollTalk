@@ -15,7 +15,7 @@ import { addPollOption, createPollAsync } from '../actions/createPoll';
 const uuidv4 = require('uuid/v4');
 
 // Centering style for grid, need to inject globally
-injectGlobal`body > div, body > div > div, body > div > div > div {height: 100%}`; // eslint-disable-line
+// injectGlobal`body > div, body > div > div, body > div > div > div {height: 100%}`; // eslint-disable-line
 
 // Adds server generated styles to emotion cache.
 // '__NEXT_DATA__.ids' is set in '_document.js'
