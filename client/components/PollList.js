@@ -1,5 +1,5 @@
 import React from 'react';
-import Progress, { Button, Form, Grid, Segment, Icon, Header } from 'semantic-ui-react';
+import { Progress, Button, Form, Grid, Segment, Icon, Header } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
