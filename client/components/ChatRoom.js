@@ -8,6 +8,83 @@ import globalStore from '../store';
 
 const uuidv4 = require('uuid/v4');
 
+const animals = [
+  'Alligator',
+  'Anteater',
+  'Armadillo',
+  'Auroch',
+  'Axolotl',
+  'Badger',
+  'Bat',
+  'Beaver',
+  'Buffalo',
+  'Camel',
+  'Chameleon',
+  'Cheetah',
+  'Chipmunk',
+  'Chinchilla',
+  'Chupacabra',
+  'Cormorant',
+  'Coyote',
+  'Crow',
+  'Dingo',
+  'Dinosaur',
+  'Dog',
+  'Dolphin',
+  'Dragon',
+  'Duck',
+  'Elephant',
+  'Ferret',
+  'Fox',
+  'Frog',
+  'Giraffe',
+  'Gopher',
+  'Grizzly',
+  'Hedgehog',
+  'Hippo',
+  'Hyena',
+  'Jackal',
+  'Ibex',
+  'Ifrit',
+  'Iguana',
+  'Kangaroo',
+  'Koala',
+  'Kraken',
+  'Lemur',
+  'Leopard',
+  'Liger',
+  'Lion',
+  'Llama',
+  'Manatee',
+  'Mink',
+  'Monkey',
+  'Moose',
+  'Narwhal',
+  'Nyan cat',
+  'Orangutan',
+  'Otter',
+  'Panda',
+  'Penguin',
+  'Platypus',
+  'Python',
+  'Pumpkin',
+  'Quagga',
+  'Rabbit',
+  'Raccoon',
+  'Rhino',
+  'Sheep',
+  'Shrew',
+  'Skunk',
+  'Slow loris',
+  'Squirrel',
+  'Tiger',
+  'Turtle',
+  'Walrus',
+  'Wolf',
+  'Wolverine',
+  'Wombat',
+];
+
 let uniqueKey1;
 
 class ChatRoom extends React.Component {
@@ -37,7 +114,11 @@ class ChatRoom extends React.Component {
             {this.props.pollInfo.result.options[this.props.chatIndex].option}
           </Message.Header>
           <Feed key={uniqueKey1}>{chatRoom}</Feed>
-          <Input onChange={this.handleChange('chatName')} placeholder="Name" />
+          <Input
+            onChange={this.handleChange('chatName')}
+            value={this.state.chatName}
+            placeholder="Name"
+          />
           <Input
             onChange={this.handleChange('chatMessage')}
             value={this.state.chatMessage}
@@ -46,7 +127,12 @@ class ChatRoom extends React.Component {
           <br />
           <Button
             onClick={() => {
-              this.props.addChat(this.props.chatIndex, this.state.chatName, this.state.chatMessage);
+              let { chatName } = this.state;
+              if (chatName === '') {
+                chatName = animals[Math.floor(Math.random() * animals.length)];
+                this.setState({ chatName });
+              }
+              this.props.addChat(this.props.chatIndex, chatName, this.state.chatMessage);
               this.setState({ chatMessage: '' });
             }}
             primary
