@@ -34,15 +34,22 @@ class PollList extends React.Component {
               {this.state.checkedIndex > -1 ? (
                 <p style={{ margin: 0, opacity: '0.5' }}>{item.count} votes</p>
               ) : null}
-              {this.state.checkedIndex > -1 ? <Progress attached="bottom" color="blue" /> : null}
+              {this.state.checkedIndex > -1 ? (
+                <Progress
+                  attached="bottom"
+                  color="blue"
+                  value={item.count}
+                  total={this.props.pollInfo.result.totalVotes}
+                />
+              ) : null}
             </Segment>
           </Grid.Column>
           <Grid.Column width={2} verticalAlign="middle" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <Button.Group vertical>
               <Button
                 disabled={this.state.checkedIndex > -1}
-                checked={this.state.checkedIndex == i}
-                icon={this.state.checkedIndex == i ? 'check square' : 'square'}
+                checked={this.state.checkedIndex === i}
+                icon={this.state.checkedIndex === i ? 'check square' : 'square'}
                 color="green"
                 onClick={() => {
                   this.onCheckboxChange(i);
