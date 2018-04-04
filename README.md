@@ -10,7 +10,7 @@ BackEnd - Python3
 ```
 cd server
 source bin/activate
-pip install requirements.txt
+pip install -r requirements.txt
 python3 mongo.py
 
 cd ../client
