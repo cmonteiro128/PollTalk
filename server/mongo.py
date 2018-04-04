@@ -123,7 +123,7 @@ def on_join(data):
     join_room(room)
     # send(get_poll((pollid)), room=room)
     data = internal_get_poll(room)
-    socketio.emit('new_Data', data, room=room, json=True)
+    socketio.emit('new_Data', {'result': data}, room=room, json=True)
 
 
 @socketio.on('leave')
