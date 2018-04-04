@@ -3,12 +3,21 @@ import fetch from 'isomorphic-unfetch';
 
 // Actions for View Poll page
 export const GET_POLL_INFO = 'GET_POLL_INFO';
+export const SET_OPEN_ROOMS = 'SET_OPEN_ROOMS';
 
 export function getPollInfo(option) {
   console.log(option);
   return {
     type: GET_POLL_INFO,
     option,
+  };
+}
+
+export function setOpenRooms(rooms) {
+  console.log(rooms);
+  return {
+    type: SET_OPEN_ROOMS,
+    rooms,
   };
 }
 
@@ -60,5 +69,18 @@ export function addChat(option, name, message) {
       name,
       message,
     });
+  };
+}
+
+export function openCloseChat(index) {
+  return (dispatch, getState) => {
+    const rooms = getState().PollView.openRooms;
+    if (rooms.includes(index)) {
+      // rooms.splice(rooms.indexOf(index), 1);
+      dispatch(setOpenRooms(index));
+    } else {
+      // rooms.push(index);
+      dispatch(setOpenRooms(index));
+    }
   };
 }

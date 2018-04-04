@@ -3,7 +3,7 @@ import { Button, Form, Grid, Segment, Message, Checkbox, Icon } from 'semantic-u
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { vote } from '../actions/pollView';
+import { vote, openCloseChat } from '../actions/pollView';
 import globalStore from '../store';
 
 const uuidv4 = require('uuid/v4');
@@ -30,7 +30,7 @@ class PollList extends React.Component {
             <Message>
               <Message.Header>Option {i + 1}</Message.Header>
               <p>{item.option}</p>
-              <p> Count:{item.count}</p>
+              {this.state.checkedIndex > -1 ? <p>Count:{item.count}</p> : null}
             </Message>
           </Grid.Column>
           <Grid.Column width={2} verticalAlign="middle">
@@ -47,6 +47,7 @@ class PollList extends React.Component {
               color="blue"
               onClick={() => {
                 console.log(`Clicked option ${i}`);
+                this.props.openCloseChat(i);
               }}
             />
           </Grid.Column>
@@ -75,6 +76,6 @@ class PollList extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ vote }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ vote, openCloseChat }, dispatch);
 
 export default connect(globalStore, mapDispatchToProps)(PollList);

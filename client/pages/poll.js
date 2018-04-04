@@ -25,8 +25,8 @@ class CreatePoll extends React.Component {
   static async getInitialProps({ store, query }) {
     await store.dispatch(getPollInfoAsync(query.id));
     const pollDataFromState = store.getState().PollView.pollInfo[0];
-
-    return { pollInfo: pollDataFromState };
+    const { openRooms } = store.getState().PollView;
+    return { pollInfo: pollDataFromState, openRooms };
   }
 
   constructor(props) {
@@ -56,11 +56,11 @@ class CreatePoll extends React.Component {
     const { vote, addChat } = this.props;
 
     // State
-    const { pollInfo } = this.props;
+    const { pollInfo, openRooms } = this.props;
 
     const ChatRooms = pollInfo.result.options.map((item, i) => (
-      <Grid.Column width={4}>
-        <ChatRoom chatIndex={i} pollInfo={pollInfo} />
+      <Grid.Column computer={4} mobile={16}>
+        <ChatRoom chatIndex={i} pollInfo={pollInfo} openRooms={openRooms} />
       </Grid.Column>
     ));
 
@@ -83,7 +83,7 @@ class CreatePoll extends React.Component {
             max-width: 95%;
           `}
         >
-          <Grid.Column width={4}>
+          <Grid.Column computer={4} mobile={16}>
             <PollList pollInfo={pollInfo} />
           </Grid.Column>
           {ChatRooms}
@@ -123,6 +123,7 @@ const SuggestionField = () => (
 
 const mapStateToProps = state => ({
   pollInfo: state.PollView.pollInfo[0],
+  openRooms: state.PollView.openRooms,
 });
 
 const mapDispatchToProps = dispatch =>

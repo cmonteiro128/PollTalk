@@ -3,7 +3,7 @@ import { Feed, Message, Input, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { addChat } from '../actions/pollView';
+import { addChat, openCloseChat } from '../actions/pollView';
 import globalStore from '../store';
 
 const uuidv4 = require('uuid/v4');
@@ -13,24 +13,13 @@ let uniqueKey1;
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { chatName: '', chatMessage: '', openRooms: [] };
+    this.state = { chatName: '', chatMessage: '' };
   }
 
   handleChange = name => (e, { value }) => this.setState({ [name]: value });
 
-  openCloseChat(index) {
-    const rooms = this.state.openRooms;
-    if (rooms.includes(index)) {
-      rooms.splice(rooms.indexOf(index), 1);
-      this.setState({ openRooms: rooms });
-    } else {
-      rooms.push(index);
-      this.setState({ openRooms: rooms });
-    }
-  }
-
   render() {
-    if (this.state.openRooms.includes(this.props.chatIndex)) {
+    if (this.props.openRooms.includes(this.props.chatIndex)) {
       const chatRoom = this.props.pollInfo.result.options[this.props.chatIndex].chat.map((item) => {
         uniqueKey1 = uuidv4();
         if (item.length === 0) return null;
@@ -61,20 +50,16 @@ class ChatRoom extends React.Component {
           >
             Send
           </Button>
-          <Button onClick={() => this.openCloseChat(this.props.chatIndex)}>
+          <Button onClick={() => this.props.openCloseChat(this.props.chatIndex)}>
             Close {this.props.chatIndex}
           </Button>
         </Message>
       );
     }
-    return (
-      <Button onClick={() => this.openCloseChat(this.props.chatIndex)}>
-        Open {this.props.chatIndex}
-      </Button>
-    );
+    return null;
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addChat }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ addChat, openCloseChat }, dispatch);
 
 export default connect(globalStore, mapDispatchToProps)(ChatRoom);
