@@ -11,7 +11,7 @@ const ChatRoom = (props) => {
   const chatRoom = props.pollInfo.result.options.map((item, i) => {
     uniqueKey1 = uuidv4();
     return (
-      <Feed>
+      <Feed key={uniqueKey1}>
         <Feed.Event>
           <Feed.Label icon="pencil" />
           <Feed.Content date="Today" summary="You posted on your friend Stevie Feliciano's wall." />
