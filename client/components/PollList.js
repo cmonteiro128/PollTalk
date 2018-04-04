@@ -25,39 +25,40 @@ class PollList extends React.Component {
     const optionList = this.props.pollInfo.result.options.map((item, i) => {
       uniqueKey1 = uuidv4();
       return (
-        <Grid key={uniqueKey1} columns={3}>
-          <Grid.Column width={11} align="left">
-            <div className="ui segment">
-              <h4 style={{ margin: 0 }}>{item.option}</h4>
-              {this.state.checkedIndex > -1 ? (
-                <p style={{ margin: 0, opacity: '0.5' }}>{item.count} votes</p>
-              ) : null}
-              {this.state.checkedIndex > -1 ? (
-                <div className="ui blue bottom attached progress">
-                  <div className="bar">
-                    <div className="progress" />
+        <Grid key={uniqueKey1} columns={2} stretched>
+          <Grid.Column width={13} align="left">
+            <div class="ui segment">
+              <h4 style={{margin:0}}>{item.option}</h4>
+              {this.state.checkedIndex > -1 ? <p style={{margin:0, opacity:'0.5'}}>{item.count} votes</p> : null}
+              {this.state.checkedIndex > -1 ?
+                <div class="ui blue bottom attached progress">
+                  <div class="bar">
+                    <div class="progress"></div>
                   </div>
                 </div>
-              ) : null}
+              : null}
             </div>
           </Grid.Column>
-          <Grid.Column width={2} verticalAlign="middle">
-            <Checkbox
-              disabled={this.state.checkedIndex > -1}
-              checked={this.state.checkedIndex == i}
-              onChange={() => this.onCheckboxChange(i)}
-            />
-          </Grid.Column>
-          <Grid.Column width={2} verticalAlign="middle">
-            <Button
-              circular
-              icon="talk"
-              color="blue"
-              onClick={() => {
-                console.log(`Clicked option ${i}`);
-                this.props.openCloseChat(i);
-              }}
-            />
+          <Grid.Column width={2} verticalAlign="middle" style={{paddingLeft:0, paddingRight:0}}>
+            <Button.Group vertical>
+              <Button
+                disabled={this.state.checkedIndex > -1}
+                checked={this.state.checkedIndex == i}
+                icon={this.state.checkedIndex == i ? 'check square' : 'square'}
+                color="green"
+                onClick={() => {
+                  this.onCheckboxChange(i);
+                }}
+              />
+              <Button
+                icon="talk"
+                color="blue"
+                onClick={() => {
+                  console.log(`Clicked option ${i}`);
+                  this.props.openCloseChat(i);
+                }}
+              />
+            </Button.Group>
           </Grid.Column>
         </Grid>
       );
