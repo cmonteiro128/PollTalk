@@ -133,6 +133,8 @@ def add_to_chat(pollid, option, messege, name):
 #   SOCKET CONNECTIONS
 #
 
+# data = {room}
+
 
 @socketio.on('join')
 def on_join(data):
@@ -143,11 +145,15 @@ def on_join(data):
     data = internal_get_poll(room)
     socketio.emit('new_Data', {'result': data}, room=room, json=True)
 
+# data = {room}
+
 
 @socketio.on('leave')
 def on_leave(data):
     room = data['room']
     leave_room(room)
+
+# data = { room, option}
 
 
 @socketio.on('vote')
@@ -157,6 +163,8 @@ def on_vote(data):
     vote(room, data)
     data = internal_get_poll(room)
     socketio.emit('new_Data', {'result': data}, room=room, json=True)
+
+# data = {room, messege, name, option}
 
 
 @socketio.on('chat')
