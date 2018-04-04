@@ -4,7 +4,7 @@
 import React from 'react';
 import { hydrate } from 'react-emotion';
 import { bindActionCreators } from 'redux';
-import { Grid, Header, Segment, Button, Icon } from 'semantic-ui-react';
+import { Grid, Header, Segment, Button, Icon, Input, Message } from 'semantic-ui-react';
 import { css } from 'emotion';
 
 import withRedux from 'next-redux-wrapper';
@@ -31,7 +31,10 @@ class CreatePoll extends React.Component {
   constructor(props) {
     super(props);
     // this.state = { pollID: props.url.query.id };
-
+    this.state = {
+      isHidden: true,
+      chatIsHidden: true,
+    };
     console.log(props.url.query.id);
   }
 
@@ -40,7 +43,15 @@ class CreatePoll extends React.Component {
   }
 
   handleNewSuggestion = () => {
-    // this.props.createPollAsync(this.props.pollOptions, this.state.pollName);
+    this.setState({
+      isHidden: !this.state.isHidden,
+    });
+  };
+
+  handleOptionChatSelect = () => {
+    this.setState({
+      chatIsHidden: !this.state.chatIsHidden,
+    });
   };
 
   render() {
@@ -88,9 +99,10 @@ class CreatePoll extends React.Component {
                   <Icon name="add" />
                   Suggest New Option
                 </Button>
+                {!this.state.isHidden && <SuggestionField />}
               </Grid.Column>
               <Grid.Column width={8}>
-                <ChatRoom pollInfo={pollInfo} />
+                {!this.state.chatIsHidden && <ChatRoom pollInfo={pollInfo} />}
               </Grid.Column>
             </Grid>
           </Segment>
@@ -99,6 +111,35 @@ class CreatePoll extends React.Component {
     );
   }
 }
+
+const SuggestionField = () => (
+  <Message>
+    <Input
+      multiline
+      numberOfLines={6}
+      maxLength={140}
+      label={140}
+      labelPosition="right"
+      fluid
+      icon="checkmark box"
+      iconPosition="left"
+      placeholder="Poll Question"
+      action={
+        <Button
+          id="add-button"
+          icon="plus"
+          color="blue"
+          style={{
+            borderTopRightRadius: '0.285714rem',
+            borderBottomRightRadius: '0.285714rem',
+          }}
+          onClick={() => {}}
+        />
+      }
+    />
+  </Message>
+);
+
 const mapStateToProps = state => ({
   pollInfo: state.PollView.pollInfo[0],
 });

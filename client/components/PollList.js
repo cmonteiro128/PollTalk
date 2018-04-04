@@ -21,7 +21,7 @@ const PollList = (props) => {
           <Checkbox />
         </Grid.Column>
         <Grid.Column width={2} verticalAlign="middle">
-          <Button circular icon="talk" color="blue" />
+          <Button circular icon="talk" color="blue" onClick={props.handleOptionChatSelect} />
         </Grid.Column>
       </Grid>
     );
