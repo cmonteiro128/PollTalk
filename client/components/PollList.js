@@ -30,7 +30,7 @@ class PollList extends React.Component {
             <Message>
               <Message.Header>Option {i + 1}</Message.Header>
               <p>{item.option}</p>
-              <p> Count:{item.count}</p>
+              {this.state.checkedIndex > -1 ? <p>Count:{item.count}</p> : null}
             </Message>
           </Grid.Column>
           <Grid.Column width={2} verticalAlign="middle">
