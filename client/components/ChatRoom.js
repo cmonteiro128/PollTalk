@@ -53,9 +53,7 @@ class ChatRoom extends React.Component {
           >
             Send
           </Button>
-          <Button onClick={() => this.props.openCloseChat(this.props.chatIndex)}>
-            Close {this.props.chatIndex}
-          </Button>
+          <Button onClick={() => this.props.openCloseChat(this.props.chatIndex)}>Close</Button>
         </Message>
       );
     }
