@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Grid, Header, Segment, Message, Checkbox } from 'semantic-ui-react';
+import { Button, Form, Grid, Segment, Message, Checkbox, Icon } from 'semantic-ui-react';
 
 const uuidv4 = require('uuid/v4');
 
@@ -32,6 +32,17 @@ const PollList = (props) => {
       <Form size="large">
         <Segment>{optionList}</Segment>
       </Form>
+      <Button
+        icon
+        color="blue"
+        fluid
+        size="large"
+        labelPosition="left"
+        onClick={this.handleNewSuggestion}
+      >
+        <Icon name="add" />
+        Suggest New Option
+      </Button>
     </React.Fragment>
   );
 };

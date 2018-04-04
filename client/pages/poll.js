@@ -4,7 +4,7 @@
 import React from 'react';
 import { hydrate } from 'react-emotion';
 import { bindActionCreators } from 'redux';
-import { Grid, Header, Segment, Button, Icon } from 'semantic-ui-react';
+import { Container, Grid, Header, Segment, Menu } from 'semantic-ui-react';
 import { css } from 'emotion';
 
 import withRedux from 'next-redux-wrapper';
@@ -25,18 +25,18 @@ class CreatePoll extends React.Component {
   static async getInitialProps({ store, query }) {
     await store.dispatch(getPollInfoAsync(query.id));
     const pollDataFromState = store.getState().PollView.pollInfo[0];
+
     return { pollInfo: pollDataFromState };
   }
 
   constructor(props) {
     super(props);
     // this.state = { pollID: props.url.query.id };
-
     console.log(props.url.query.id);
   }
 
   componentDidMount() {
-    intiateSocket();
+    this.props.intiateSocket();
   }
 
   handleNewSuggestion = () => {
@@ -53,48 +53,30 @@ class CreatePoll extends React.Component {
     return (
       <div align="center">
         <Head title="PollTalk | View Poll" />
-        <Segment.Group>
-          <Segment>
-            <Header
-              as="h2"
-              color="blue"
-              textAlign="center"
-              className={css`
-                margin-bottom: 50%;
-              `}
-            >
-              {pollInfo.result.pollName}
-            </Header>
-          </Segment>
-          <Segment padded="very">
-            <Grid
-              textAlign="center"
-              verticalAlign="middle"
-              columns={2}
-              className={css`
-                max-width: 50%;
-              `}
-            >
-              <Grid.Column width={8}>
-                <PollList pollInfo={pollInfo} />
-                <Button
-                  icon
-                  color="blue"
-                  fluid
-                  size="large"
-                  labelPosition="left"
-                  onClick={this.handleNewSuggestion}
-                >
-                  <Icon name="add" />
-                  Suggest New Option
-                </Button>
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <ChatRoom pollInfo={pollInfo} />
-              </Grid.Column>
-            </Grid>
-          </Segment>
-        </Segment.Group>
+        <Menu fixed="top">
+          <Container
+            className={css`
+              margin-left: 50%;
+            `}
+          >
+            <Menu.Item name="editorials">{pollInfo.result.pollName}</Menu.Item>
+          </Container>
+        </Menu>
+        <Grid
+          textAlign="center"
+          verticalAlign="middle"
+          columns={2}
+          className={css`
+            max-width: 50%;
+          `}
+        >
+          <Grid.Column width={8}>
+            <PollList pollInfo={pollInfo} />
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <ChatRoom pollInfo={pollInfo} />
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
