@@ -58,9 +58,9 @@ class CreatePoll extends React.Component {
     // State
     const { pollInfo, openRooms } = this.props;
 
-    const ChatRooms = pollInfo.result.options.map((item, i) => (
+    const ChatRooms = openRooms.map((item, i) => (
       <Grid.Column computer={4} mobile={16}>
-        <ChatRoom chatIndex={i} pollInfo={pollInfo} openRooms={openRooms} />
+        <ChatRoom chatIndex={openRooms[i]} pollInfo={pollInfo} openRooms={openRooms} />
       </Grid.Column>
     ));
 

@@ -27,16 +27,18 @@ class PollList extends React.Component {
       return (
         <Grid key={uniqueKey1} columns={3}>
           <Grid.Column width={11} align="left">
-            <div class="ui segment">
-              <h4 style={{margin:0}}>{item.option}</h4>
-              {this.state.checkedIndex > -1 ? <p style={{margin:0, opacity:'0.5'}}>{item.count} votes</p> : null}
-              {this.state.checkedIndex > -1 ?
-                <div class="ui blue bottom attached progress">
-                  <div class="bar">
-                    <div class="progress"></div>
+            <div className="ui segment">
+              <h4 style={{ margin: 0 }}>{item.option}</h4>
+              {this.state.checkedIndex > -1 ? (
+                <p style={{ margin: 0, opacity: '0.5' }}>{item.count} votes</p>
+              ) : null}
+              {this.state.checkedIndex > -1 ? (
+                <div className="ui blue bottom attached progress">
+                  <div className="bar">
+                    <div className="progress" />
                   </div>
                 </div>
-              : null}
+              ) : null}
             </div>
           </Grid.Column>
           <Grid.Column width={2} verticalAlign="middle">
