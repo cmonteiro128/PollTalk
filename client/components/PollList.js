@@ -41,7 +41,14 @@ class PollList extends React.Component {
             />
           </Grid.Column>
           <Grid.Column width={2} verticalAlign="middle">
-            <Button circular icon="talk" color="blue" />
+            <Button
+              circular
+              icon="talk"
+              color="blue"
+              onClick={() => {
+                console.log(`Clicked option ${i}`);
+              }}
+            />
           </Grid.Column>
         </Grid>
       );
