@@ -30,6 +30,11 @@ socketio = SocketIO(app)
 @app.route('/poll/<pollid>', methods=['GET'])
 @cross_origin()
 def get_poll(pollid):
+    output = internal_get_poll(pollid)
+    return jsonify({'result': output})
+
+
+def internal_get_poll(pollid):
     poll = mongo.db.polls
     # pollid = request.json['pollid']
     if len(pollid) == 8:
@@ -49,7 +54,7 @@ def get_poll(pollid):
                       'pollID': pollobject['pollID']}
         else:
             output = "COULD NOT FIND"
-    return jsonify({'result': output})
+    return output
 
 # Creates a poll and returns the Admin ID, and the POll ID
 # Accepts a json with the format {'pollName','options[]'}
@@ -113,10 +118,12 @@ def closepoll(pollid):
 
 @socketio.on('join')
 def on_join(data):
-    pollid = data['pollid']
+    print('joined room ' + data['room'])
     room = data['room']
     join_room(room)
-    send(get_poll((pollid)), room=room)
+    # send(get_poll((pollid)), room=room)
+    data = internal_get_poll(room)
+    socketio.emit('new_Data', data, room=room, json=True)
 
 
 @socketio.on('leave')
@@ -125,14 +132,14 @@ def on_leave(data):
     leave_room(room)
 
 
-@socketio.on('message')
+@socketio.on('messege')
 def on_messege(data):
+    print('joined room ' + data['room'])
     room = data['room']
-    pollid = data['pollid']
-    message = data['message']
+    message = data['messege']
     #option = data['option']
     # update messege
-    send(get_poll(pollid), room=room)
+    send(get_poll(room), room=room)
 
 
 if __name__ == '__main__':
