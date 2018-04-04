@@ -1,5 +1,5 @@
 import React from 'react';
-import { Feed, Message, Input, Button } from 'semantic-ui-react';
+import { Feed, Message, Input, Button, Form, Header } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -111,35 +111,46 @@ class ChatRoom extends React.Component {
       return (
         <Message>
           <Message.Header>
-            {this.props.pollInfo.result.options[this.props.chatIndex].option}
+            <Header as="h2" dividing>
+              {this.props.pollInfo.result.options[this.props.chatIndex].option}
+            </Header>
           </Message.Header>
           <Feed key={uniqueKey1}>{chatRoom}</Feed>
-          <Input
-            onChange={this.handleChange('chatName')}
-            value={this.state.chatName}
-            placeholder="Name"
-          />
-          <Input
-            onChange={this.handleChange('chatMessage')}
-            value={this.state.chatMessage}
-            placeholder="Message"
-          />
+          <Header as="h2" dividing />
           <br />
-          <Button
-            onClick={() => {
-              let { chatName } = this.state;
-              if (chatName === '') {
-                chatName = animals[Math.floor(Math.random() * animals.length)];
-                this.setState({ chatName });
-              }
-              this.props.addChat(this.props.chatIndex, chatName, this.state.chatMessage);
-              this.setState({ chatMessage: '' });
-            }}
-            primary
-          >
-            Send
-          </Button>
-          <Button onClick={() => this.props.openCloseChat(this.props.chatIndex)}>Close</Button>
+          <Form>
+            <Form.Field>
+              <Input
+                onChange={this.handleChange('chatName')}
+                value={this.state.chatName}
+                placeholder="Name"
+              />
+            </Form.Field>
+            <Form.Field>
+              <Input
+                onChange={this.handleChange('chatMessage')}
+                value={this.state.chatMessage}
+                placeholder="Message"
+              />
+            </Form.Field>
+            <Form.Field align="right">
+              <Button onClick={() => this.props.openCloseChat(this.props.chatIndex)}>Close</Button>
+              <Button
+                onClick={() => {
+                  let { chatName } = this.state;
+                  if (chatName === '') {
+                    chatName = animals[Math.floor(Math.random() * animals.length)];
+                    this.setState({ chatName });
+                  }
+                  this.props.addChat(this.props.chatIndex, chatName, this.state.chatMessage);
+                  this.setState({ chatMessage: '' });
+                }}
+                primary
+              >
+                Send
+              </Button>
+            </Form.Field>
+          </Form>
         </Message>
       );
     }
