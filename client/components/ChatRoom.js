@@ -115,7 +115,9 @@ class ChatRoom extends React.Component {
               {this.props.pollInfo.result.options[this.props.chatIndex].option}
             </Header>
           </Message.Header>
-          <Feed key={uniqueKey1}>{chatRoom}</Feed>
+          <Feed key={uniqueKey1} scrolling>
+            {chatRoom}
+          </Feed>
           <Header as="h2" dividing />
           <br />
           <Form>

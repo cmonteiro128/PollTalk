@@ -94,7 +94,7 @@ class PollList extends React.Component {
             fluid
             icon="checkmark box"
             iconPosition="left"
-            placeholder="Poll Question"
+            placeholder="Suggest New Option"
             action={
               <Button
                 id="add-button"
@@ -109,17 +109,6 @@ class PollList extends React.Component {
             }
           />
         </Message>
-        <Button
-          icon
-          color="blue"
-          fluid
-          size="large"
-          labelPosition="left"
-          onClick={this.handleNewSuggestion}
-        >
-          <Icon name="add" />
-          Suggest New Option
-        </Button>
       </React.Fragment>
     );
   }

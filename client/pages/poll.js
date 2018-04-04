@@ -4,7 +4,7 @@
 import React from 'react';
 import { hydrate } from 'react-emotion';
 import { bindActionCreators } from 'redux';
-import { Container, Grid, Header, Segment, Menu } from 'semantic-ui-react';
+import { Container, Grid, Header, Segment, Menu, Image } from 'semantic-ui-react';
 import { css } from 'emotion';
 
 import withRedux from 'next-redux-wrapper';
@@ -67,13 +67,15 @@ class CreatePoll extends React.Component {
     return (
       <div align="center">
         <Head title="PollTalk | View Poll" />
-        <Menu fluid widths={3}>
-          <Menu.Item name="" />
-          <Menu.Item name="pollName">
-            <Header as="h2">{pollInfo.result.pollName}</Header>
+        <Menu color="blue" inverted widths={3} size="massive">
+          <Menu.Item name="">
+            <Image src="../static/PollTalk.png" size="small" />
           </Menu.Item>
+          <Menu.Item name="pollName">{pollInfo.result.pollName}</Menu.Item>
           <Menu.Item name="" />
         </Menu>
+        <br />
+        <br />
         <Grid
           textAlign="center"
           verticalAlign="middle"
