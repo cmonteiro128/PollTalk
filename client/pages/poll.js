@@ -50,10 +50,16 @@ class CreatePoll extends React.Component {
     // State
     const { pollInfo } = this.props;
 
+    const ChatRooms = pollInfo.result.options.map(() => (
+      <Grid.Column width={4}>
+        <ChatRoom pollInfo={pollInfo} />
+      </Grid.Column>
+    ));
+
     return (
       <div align="center">
         <Head title="PollTalk | View Poll" />
-        <Menu fixed="top">
+        <Menu>
           <Container
             className={css`
               margin-left: 50%;
@@ -65,17 +71,14 @@ class CreatePoll extends React.Component {
         <Grid
           textAlign="center"
           verticalAlign="middle"
-          columns={2}
           className={css`
-            max-width: 50%;
+            max-width: 95%;
           `}
         >
-          <Grid.Column width={8}>
+          <Grid.Column width={4}>
             <PollList pollInfo={pollInfo} />
           </Grid.Column>
-          <Grid.Column width={8}>
-            <ChatRoom pollInfo={pollInfo} />
-          </Grid.Column>
+          {ChatRooms}
         </Grid>
       </div>
     );
