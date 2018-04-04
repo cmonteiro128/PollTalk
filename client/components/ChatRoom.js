@@ -33,6 +33,9 @@ class ChatRoom extends React.Component {
 
       return (
         <Message>
+          <Message.Header>
+            {this.props.pollInfo.result.options[this.props.chatIndex].option}
+          </Message.Header>
           <Feed key={uniqueKey1}>{chatRoom}</Feed>
           <Input onChange={this.handleChange('chatName')} placeholder="Name" />
           <Input
