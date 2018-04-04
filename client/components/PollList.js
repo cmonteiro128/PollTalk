@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Grid, Segment, Message, Checkbox, Icon } from 'semantic-ui-react';
+import Progress, { Button, Form, Grid, Segment, Icon, Header } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -27,19 +27,17 @@ class PollList extends React.Component {
       return (
         <Grid key={uniqueKey1} columns={2} stretched>
           <Grid.Column width={13} align="left">
-            <div class="ui segment">
-              <h4 style={{margin:0}}>{item.option}</h4>
-              {this.state.checkedIndex > -1 ? <p style={{margin:0, opacity:'0.5'}}>{item.count} votes</p> : null}
-              {this.state.checkedIndex > -1 ?
-                <div class="ui blue bottom attached progress">
-                  <div class="bar">
-                    <div class="progress"></div>
-                  </div>
-                </div>
-              : null}
-            </div>
+            <Segment>
+              <Header as="h4" style={{ margin: 0 }}>
+                {item.option}
+              </Header>
+              {this.state.checkedIndex > -1 ? (
+                <p style={{ margin: 0, opacity: '0.5' }}>{item.count} votes</p>
+              ) : null}
+              {this.state.checkedIndex > -1 ? <Progress attached="bottom" color="blue" /> : null}
+            </Segment>
           </Grid.Column>
-          <Grid.Column width={2} verticalAlign="middle" style={{paddingLeft:0, paddingRight:0}}>
+          <Grid.Column width={2} verticalAlign="middle" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <Button.Group vertical>
               <Button
                 disabled={this.state.checkedIndex > -1}
