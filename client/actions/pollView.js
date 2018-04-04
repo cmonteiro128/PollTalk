@@ -1,5 +1,4 @@
 import io from 'socket.io-client';
-import store from '../store';
 import fetch from 'isomorphic-unfetch';
 
 // Actions for View Poll page
@@ -26,11 +25,11 @@ export function getPollInfoAsync(pollID) {
 }
 
 export function intiateSocket() {
-  console.log('Socket Initializing');
   return (dispatch, getState) => {
+    console.log('Socket Initializing');
     const socket = io('http://localhost:5000');
     const room = getState().PollView.pollInfo[0].result.pollID;
-    socket.on('connect', (socket) => {
+    socket.on('connect', () => {
       socket.emit('room', room);
       socket.emit('pollid', room);
     });
