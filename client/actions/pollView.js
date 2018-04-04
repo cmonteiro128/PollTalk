@@ -5,6 +5,7 @@ import fetch from 'isomorphic-unfetch';
 export const GET_POLL_INFO = 'GET_POLL_INFO';
 
 export function getPollInfo(option) {
+  console.log(option);
   return {
     type: GET_POLL_INFO,
     option,
@@ -21,6 +22,7 @@ export function getPollInfoAsync(pollID) {
     });
     const json = await response.json();
     dispatch(getPollInfo(json));
+    console.log(json);
   };
 }
 
@@ -30,8 +32,12 @@ export function intiateSocket() {
     const socket = io('http://localhost:5000');
     const room = getState().PollView.pollInfo[0].result.pollID;
     socket.on('connect', () => {
-      socket.emit('room', room);
+      socket.emit('join', { room, message: 'Test' });
       socket.emit('pollid', room);
+      socket.on('new_Data', (data) => {
+        dispatch(getPollInfo(data));
+        console.log(data);
+      });
     });
   };
 }
