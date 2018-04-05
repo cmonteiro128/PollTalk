@@ -2,7 +2,17 @@
 /* global window */
 
 import React from 'react';
-import { Button, Form, Grid, Header, Segment, Input, Message } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Segment,
+  Input,
+  Message,
+  Menu,
+  Image,
+} from 'semantic-ui-react';
 import { css } from 'emotion';
 import { hydrate, injectGlobal } from 'react-emotion';
 import withRedux from 'next-redux-wrapper';
@@ -54,6 +64,15 @@ class CreatePoll extends React.Component {
     return (
       <div>
         <Head title="PollTalk | Create Poll" />
+        <Menu color="blue" inverted widths={3} size="massive">
+          <Menu.Item name="">
+            <Image src="../static/PollTalk.png" size="small" />
+          </Menu.Item>
+          <Menu.Item name="" />
+          <Menu.Item name="" />
+        </Menu>
+        <br />
+        <br />
         <Grid textAlign="center" verticalAlign="middle">
           <Grid.Column
             className={css`
