@@ -83,7 +83,7 @@ class CreatePoll extends React.Component {
             max-width: 95%;
           `}
         >
-          <Grid.Column computer={4} mobile={16}>
+          <Grid.Column computer={6} mobile={16}>
             <PollList pollInfo={pollInfo} />
           </Grid.Column>
           {ChatRooms}
