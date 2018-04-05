@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  Progress,
-  Button,
-  Form,
-  Grid,
-  Segment,
-  Icon,
-  Header,
-  Message,
-  Input,
-} from 'semantic-ui-react';
+import { Progress, Button, Form, Grid, Segment, Header, Message, Input } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -59,8 +49,8 @@ class PollList extends React.Component {
               <Button
                 disabled={this.state.checkedIndex > -1}
                 checked={this.state.checkedIndex === i}
-                icon={this.state.checkedIndex === i ? 'check square' : 'square'}
-                color="green"
+                icon={this.state.checkedIndex === i ? 'check' : 'square outline'}
+                color="blue"
                 onClick={() => {
                   this.onCheckboxChange(i);
                 }}
