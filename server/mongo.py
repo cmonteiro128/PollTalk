@@ -20,6 +20,7 @@ else:
     print(pword)
 
 port = int(os.environ.get('PORT', 5000))
+print(port)
 
 app.config['SECRET_KEY'] = '9C494A6376164C5B8044A6465F47FC79'
 app.config['MONGO_DBNAME'] = 'test'
@@ -190,4 +191,4 @@ def on_chat(data):
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, port=port)
+    socketio.run(app, port=port)
