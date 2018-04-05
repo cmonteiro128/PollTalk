@@ -1,6 +1,13 @@
 import io from 'socket.io-client';
 import fetch from 'isomorphic-unfetch';
 
+let url;
+if (process.env.NODE_ENV === 'production') {
+  url = 'https://polltalk-server.herokuapp.com';
+} else {
+  url = 'http://localhost:5000';
+}
+
 // Actions for View Poll page
 export const GET_POLL_INFO = 'GET_POLL_INFO';
 export const SET_OPEN_ROOMS = 'SET_OPEN_ROOMS';
@@ -23,7 +30,7 @@ export function setOpenRooms(rooms) {
 
 export function getPollInfoAsync(pollID) {
   return async (dispatch) => {
-    const response = await fetch(`http://localhost:5000/poll/${pollID}`, {
+    const response = await fetch(`${url}/poll/${pollID}`, {
       mode: 'cors',
       headers: {
         'content-type': 'application/json',
@@ -35,7 +42,7 @@ export function getPollInfoAsync(pollID) {
   };
 }
 
-const socket = io('http://localhost:5000');
+const socket = io(url);
 
 export function intiateSocket() {
   return (dispatch, getState) => {

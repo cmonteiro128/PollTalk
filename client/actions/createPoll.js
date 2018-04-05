@@ -1,5 +1,12 @@
 import Router from 'next/router';
 
+let url;
+if (process.env.NODE_ENV === 'production') {
+  url = 'https://polltalk-server.herokuapp.com';
+} else {
+  url = 'http://localhost:5000';
+}
+
 // Actions for Create Poll page
 export const ADD_POLL_OPTION = 'ADD_POLL_OPTION';
 export const ADD_POLL_NAME = 'ADD_POLL_NAME';
@@ -32,7 +39,7 @@ function createPoll(pollID) {
 export function createPollAsync(pollOptions, pollName) {
   const dataToPass = { pollOptions, pollName };
   return (dispatch) => {
-    fetch('http://localhost:5000/createPoll', {
+    fetch(`${url}/createPoll`, {
       method: 'POST',
       body: JSON.stringify(dataToPass),
       mode: 'cors',
