@@ -45,7 +45,7 @@ class PollList extends React.Component {
             </Segment>
           </Grid.Column>
           <Grid.Column width={2} verticalAlign="middle" style={{ paddingLeft: 0, paddingRight: 0 }}>
-            <Button.Group vertical>
+            <Button.Group horizontal>
               <Button
                 disabled={this.state.checkedIndex > -1}
                 checked={this.state.checkedIndex === i}
