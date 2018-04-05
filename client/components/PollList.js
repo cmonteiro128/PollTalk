@@ -74,13 +74,11 @@ class PollList extends React.Component {
         <Form size="large">
           <Segment>{optionList}</Segment>
         </Form>
-        <Message>
+        <Message style={{ padding: 15 }}>
           <Input
             multiline
             numberOfLines={6}
             maxLength={140}
-            label={140}
-            labelPosition="right"
             fluid
             icon="checkmark box"
             iconPosition="left"
