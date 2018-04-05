@@ -6,13 +6,16 @@ from flask_pymongo import PyMongo
 from flask_cors import CORS, cross_origin
 import urllib
 import uuid
+import os
 
 app = Flask(__name__)
 CORS(app)
-
-with open("config.txt") as file:
-    line = file.read()
-pword = line
+if (os.path.isfile("config.txt")):
+    with open("config.txt") as file:
+        line = file.read()
+    pword = line
+else:
+    pword = os.environ['DBPASS']
 
 app.config['SECRET_KEY'] = '9C494A6376164C5B8044A6465F47FC79'
 app.config['MONGO_DBNAME'] = 'test'
