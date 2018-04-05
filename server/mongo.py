@@ -16,6 +16,7 @@ if (os.path.isfile("config.txt")):
     pword = line
 else:
     pword = os.environ['DBPASS']
+    print(pword)
 
 app.config['SECRET_KEY'] = '9C494A6376164C5B8044A6465F47FC79'
 app.config['MONGO_DBNAME'] = 'test'
