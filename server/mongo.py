@@ -191,4 +191,4 @@ def on_chat(data):
 
 
 if __name__ == '__main__':
-    socketio.run(app, port=port)
+    socketio.run(app, port=port, host='0.0.0.0')
