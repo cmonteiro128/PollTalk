@@ -32,7 +32,7 @@ function createPoll(pollID) {
 export function createPollAsync(pollOptions, pollName) {
   const dataToPass = { pollOptions, pollName };
   return (dispatch) => {
-    fetch('https://polltalk_server.herokuapp.com/createPoll', {
+    fetch('https://polltalk-server.herokuapp.com/createPoll', {
       method: 'POST',
       body: JSON.stringify(dataToPass),
       mode: 'cors',
