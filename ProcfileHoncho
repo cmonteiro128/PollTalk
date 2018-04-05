@@ -1,2 +1,2 @@
 node: cd client && yarn install && next start -p $PORT
-python: cd server && pip install -r requirementd.txt && python Mongo.py
+python: cd server && pip install -r requirements.txt && python Mongo.py
