@@ -7,6 +7,9 @@
     "start": "next start -p $PORT",
     "heroku-postbuild": "yarn run build"
   },
+  "engines": {
+    "yarn": "1.5.1"
+  },
   "dependencies": {
     "emotion": "^9.1.0",
     "emotion-server": "^9.1.0",
