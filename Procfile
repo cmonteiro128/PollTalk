@@ -1,1 +1,1 @@
-wen: cd server && pip install -r requirements.txt && python Mongo.py
+web: cd server && pip install -r requirements.txt && python Mongo.py
