@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@mars/heroku-nextjs-build": "^2.0.0"
+  }
+}

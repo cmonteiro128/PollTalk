@@ -93,6 +93,10 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@mars/heroku-nextjs-build@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@mars/heroku-nextjs-build/-/heroku-nextjs-build-2.0.0.tgz#84d36c35b5987db93e8e6d5914d0c3bc0cb9e9fb"
+
 "@zeit/check-updates@1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@zeit/check-updates/-/check-updates-1.1.1.tgz#1bee858fd3f9b8633b0fc23dff53cb17343331c0"

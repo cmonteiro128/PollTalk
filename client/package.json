@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "next",
-    "build": "next build",
     "start": "next start -p $PORT",
-    "heroku-postbuild": "npm run build"
+    "postinstall": "heroku-nextjs-build"
   },
   "engines": {
     "yarn": "1.5.1"
   },
   "dependencies": {
+    "@mars/heroku-nextjs-build": "^2.0.0",
     "emotion": "^9.1.0",
     "emotion-server": "^9.1.0",
     "isomorphic-unfetch": "^2.0.0",
