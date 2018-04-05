@@ -23,7 +23,7 @@ export function setOpenRooms(rooms) {
 
 export function getPollInfoAsync(pollID) {
   return async (dispatch) => {
-    const response = await fetch(`http://localhost:5000/poll/${pollID}`, {
+    const response = await fetch(`https://polltalk_server.herokuapp.com/poll/${pollID}`, {
       mode: 'cors',
       headers: {
         'content-type': 'application/json',
@@ -35,7 +35,7 @@ export function getPollInfoAsync(pollID) {
   };
 }
 
-const socket = io('http://localhost:5000');
+const socket = io('https://polltalk_server.herokuapp.com');
 
 export function intiateSocket() {
   return (dispatch, getState) => {
