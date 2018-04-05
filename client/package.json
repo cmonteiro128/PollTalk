@@ -4,8 +4,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
-    "heroku-postbuild": "next build"
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "yarn run build"
   },
   "dependencies": {
     "emotion": "^9.1.0",
